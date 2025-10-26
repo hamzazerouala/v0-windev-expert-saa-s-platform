@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-
+import { useEffect, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +11,6 @@ import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
   ArrowLeft,
   Save,
@@ -21,15 +21,8 @@ import {
   GraduationCap,
   FolderKanban,
   Activity,
-  Phone,
-  MessageCircle,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -42,48 +35,69 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 export default function UserDetailPage({ params }: { params: { id: string } }) {
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false)
   const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false)
+  const [isSendingPassword, setIsSendingPassword] = useState(false)
+  const { toast } = useToast()
 
-  // Mock user data - in production this would come from a database
-  const user = {
-    id: params.id,
-    name: "Jean Dupont",
-    email: "jean.dupont@exemple.com",
-    phone: "+33 6 12 34 56 78",
-    role: "Client",
-    status: "Actif",
-    joinDate: "15 Mars 2024",
-    lastLogin: "2 Janvier 2025",
-    address: "123 Rue de la Paix, 75001 Paris",
-    company: "Tech Solutions SARL",
-    socialMedia: {
-      whatsapp: "+33612345678",
-      facebook: "jean.dupont",
-      twitter: "@jeandupont",
-      linkedin: "jean-dupont",
-      instagram: "@jeandupont",
-    },
-    purchases: [
-      { id: 1, product: "Formation WinDev", date: "20 Déc 2024", amount: "299€", status: "Complété" },
-      { id: 2, product: "Composant UI Pro", date: "15 Nov 2024", amount: "149€", status: "Complété" },
-      { id: 3, product: "Service Consulting", date: "10 Oct 2024", amount: "500€", status: "En cours" },
-    ],
-    formations: [
-      { id: 1, name: "WinDev - Débutant à Expert", progress: 75, status: "En cours" },
-      { id: 2, name: "WebDev - Développement Web Moderne", progress: 100, status: "Terminé" },
-    ],
-    projects: [
-      { id: 1, name: "Application de Gestion", status: "En cours", startDate: "1 Déc 2024" },
-      { id: 2, name: "Site E-commerce", status: "Terminé", startDate: "15 Oct 2024" },
-    ],
-    activity: [
-      { date: "2 Jan 2025", action: "Connexion à la plateforme" },
-      { date: "1 Jan 2025", action: "Progression formation WinDev: 75%" },
-      { date: "30 Déc 2024", action: "Téléchargement certificat WebDev" },
-      { date: "20 Déc 2024", action: "Achat: Formation WinDev" },
-    ],
+  useEffect(() => {
+    fetchUser()
+  }, [params.id])
+
+  const fetchUser = async () => {
+    try {
+      console.log("[v0] Fetching user by ID:", params.id)
+      const response = await fetch(`/api/users/${params.id}`)
+      if (!response.ok) {
+        throw new Error("Failed to fetch user")
+      }
+      const data = await response.json()
+      console.log("[v0] Fetched user:", data)
+      setUser(data)
+    } catch (error) {
+      console.error("[v0] Error fetching user:", error)
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les données de l'utilisateur",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSendTempPassword = async () => {
+    if (!confirm("Êtes-vous sûr de vouloir générer et envoyer un mot de passe temporaire à cet utilisateur ?")) {
+      return
+    }
+
+    setIsSendingPassword(true)
+    try {
+      const response = await fetch(`/api/admin/users/${params.id}/send-temp-password`, {
+        method: "POST",
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to send temporary password")
+      }
+
+      toast({
+        title: "Succès",
+        description: "Le mot de passe temporaire a été envoyé par email",
+      })
+    } catch (error) {
+      console.error("[v0] Error sending temporary password:", error)
+      toast({
+        title: "Erreur",
+        description: "Impossible d'envoyer le mot de passe temporaire",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSendingPassword(false)
+    }
   }
 
   const handleSave = () => {
@@ -102,36 +116,29 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
     setIsBlockDialogOpen(false)
   }
 
-  const handlePhoneCall = () => {
-    window.location.href = `tel:${user.phone}`
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
-  const handleWhatsApp = () => {
-    const phoneNumber = user.socialMedia.whatsapp.replace(/\s/g, "")
-    window.open(`https://wa.me/${phoneNumber}`, "_blank")
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h2 className="text-2xl font-bold mb-4">Utilisateur non trouvé</h2>
+        <Link href="/admin/utilisateurs">
+          <Button>Retour à la liste</Button>
+        </Link>
+      </div>
+    )
   }
 
-  const handleFacebook = () => {
-    window.open(`https://facebook.com/${user.socialMedia.facebook}`, "_blank")
-  }
-
-  const handleTwitter = () => {
-    window.open(`https://twitter.com/${user.socialMedia.twitter.replace("@", "")}`, "_blank")
-  }
-
-  const handleLinkedIn = () => {
-    window.open(`https://linkedin.com/in/${user.socialMedia.linkedin}`, "_blank")
-  }
-
-  const handleInstagram = () => {
-    window.open(`https://instagram.com/${user.socialMedia.instagram.replace("@", "")}`, "_blank")
-  }
-
-  const initials = user.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
+  const initials = `${user.first_name?.[0] || ""}${user.last_name?.[0] || ""}`.toUpperCase()
+  const fullName = `${user.first_name || ""} ${user.last_name || ""}`.trim()
+  const userStatus = user.is_blocked ? "Bloqué" : "Actif"
+  const joinDate = user.created_at ? new Date(user.created_at).toLocaleDateString("fr-FR") : "N/A"
 
   return (
     <div className="space-y-6">
@@ -149,6 +156,20 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={handleSendTempPassword} disabled={isSendingPassword}>
+            {isSendingPassword ? (
+              <>
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                Envoi...
+              </>
+            ) : (
+              <>
+                <Mail className="mr-2 h-4 w-4" />
+                Envoyer mot de passe
+              </>
+            )}
+          </Button>
+
           <Dialog open={isMessageDialogOpen} onOpenChange={setIsMessageDialogOpen}>
             <DialogTrigger asChild>
               <Button variant="outline">
@@ -159,7 +180,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             <DialogContent className="sm:max-w-[500px]">
               <form onSubmit={handleSendMessage}>
                 <DialogHeader>
-                  <DialogTitle>Envoyer un message à {user.name}</DialogTitle>
+                  <DialogTitle>Envoyer un message à {fullName}</DialogTitle>
                   <DialogDescription>
                     Le message sera envoyé par email et visible dans l&apos;espace membre
                   </DialogDescription>
@@ -186,8 +207,8 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
 
           <Dialog open={isBlockDialogOpen} onOpenChange={setIsBlockDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant={user.status === "Actif" ? "destructive" : "default"}>
-                {user.status === "Actif" ? (
+              <Button variant={userStatus === "Actif" ? "destructive" : "default"}>
+                {userStatus === "Actif" ? (
                   <>
                     <Ban className="mr-2 h-4 w-4" />
                     Bloquer
@@ -202,9 +223,9 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{user.status === "Actif" ? "Bloquer" : "Débloquer"} l&apos;utilisateur</DialogTitle>
+                <DialogTitle>{userStatus === "Actif" ? "Bloquer" : "Débloquer"} l&apos;utilisateur</DialogTitle>
                 <DialogDescription>
-                  {user.status === "Actif"
+                  {userStatus === "Actif"
                     ? "L'utilisateur ne pourra plus se connecter à la plateforme."
                     : "L'utilisateur pourra à nouveau se connecter à la plateforme."}
                 </DialogDescription>
@@ -213,7 +234,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                 <Button variant="outline" onClick={() => setIsBlockDialogOpen(false)}>
                   Annuler
                 </Button>
-                <Button variant={user.status === "Actif" ? "destructive" : "default"} onClick={handleBlockUser}>
+                <Button variant={userStatus === "Actif" ? "destructive" : "default"} onClick={handleBlockUser}>
                   Confirmer
                 </Button>
               </DialogFooter>
@@ -231,11 +252,14 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                 <AvatarFallback className="text-lg">{initials}</AvatarFallback>
               </Avatar>
               <div>
-                <CardTitle className="text-2xl">{user.name}</CardTitle>
+                <CardTitle className="text-2xl">{fullName}</CardTitle>
                 <CardDescription className="text-base">{user.email}</CardDescription>
                 <div className="flex items-center gap-2 mt-2">
-                  <Badge variant={user.role === "Admin" ? "default" : "secondary"}>{user.role}</Badge>
-                  <Badge variant={user.status === "Actif" ? "default" : "destructive"}>{user.status}</Badge>
+                  <Badge variant={user.role === "admin" ? "default" : "secondary"}>
+                    {user.role === "admin" ? "Admin" : "Client"}
+                  </Badge>
+                  <Badge variant={userStatus === "Actif" ? "default" : "destructive"}>{userStatus}</Badge>
+                  {user.is_vip && <Badge variant="default">VIP</Badge>}
                 </div>
               </div>
             </div>
@@ -258,8 +282,12 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-4">
               <div className="grid gap-2">
-                <Label htmlFor="name">Nom complet</Label>
-                <Input id="name" defaultValue={user.name} disabled={!isEditing} />
+                <Label htmlFor="firstName">Prénom</Label>
+                <Input id="firstName" defaultValue={user.first_name || ""} disabled={!isEditing} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastName">Nom</Label>
+                <Input id="lastName" defaultValue={user.last_name || ""} disabled={!isEditing} />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -267,17 +295,17 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="phone">Téléphone</Label>
-                <Input id="phone" defaultValue={user.phone} disabled={!isEditing} />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="company">Entreprise</Label>
-                <Input id="company" defaultValue={user.company} disabled={!isEditing} />
+                <Input id="phone" defaultValue={user.phone || ""} disabled={!isEditing} />
               </div>
             </div>
             <div className="space-y-4">
               <div className="grid gap-2">
+                <Label htmlFor="company">Entreprise</Label>
+                <Input id="company" defaultValue={user.company || ""} disabled={!isEditing} />
+              </div>
+              <div className="grid gap-2">
                 <Label htmlFor="role">Rôle</Label>
-                <Select defaultValue={user.role.toLowerCase()} disabled={!isEditing}>
+                <Select defaultValue={user.role} disabled={!isEditing}>
                   <SelectTrigger id="role">
                     <SelectValue />
                   </SelectTrigger>
@@ -288,145 +316,12 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                 </Select>
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="address">Adresse</Label>
-                <Textarea id="address" defaultValue={user.address} disabled={!isEditing} rows={3} />
+                <Label htmlFor="bio">Bio</Label>
+                <Textarea id="bio" defaultValue={user.bio || ""} disabled={!isEditing} rows={3} />
               </div>
               <div className="grid gap-2">
                 <Label>Date d&apos;inscription</Label>
-                <Input value={user.joinDate} disabled />
-              </div>
-              <div className="grid gap-2">
-                <Label>Dernière connexion</Label>
-                <Input value={user.lastLogin} disabled />
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Réseaux sociaux & Contact</CardTitle>
-          <CardDescription>Coordonnées et profils sociaux de l&apos;utilisateur</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            {/* Quick Contact Actions */}
-            <div>
-              <Label className="mb-3 block">Actions rapides</Label>
-              <div className="flex flex-wrap gap-2">
-                <Button variant="outline" size="sm" onClick={handlePhoneCall}>
-                  <Phone className="mr-2 h-4 w-4" />
-                  Appeler
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleWhatsApp} className="text-green-600 bg-transparent">
-                  <MessageCircle className="mr-2 h-4 w-4" />
-                  WhatsApp
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleFacebook} className="text-blue-600 bg-transparent">
-                  <Facebook className="mr-2 h-4 w-4" />
-                  Facebook
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleTwitter} className="text-sky-500 bg-transparent">
-                  <Twitter className="mr-2 h-4 w-4" />
-                  Twitter
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleLinkedIn} className="text-blue-700 bg-transparent">
-                  <Linkedin className="mr-2 h-4 w-4" />
-                  LinkedIn
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleInstagram} className="text-pink-600 bg-transparent">
-                  <Instagram className="mr-2 h-4 w-4" />
-                  Instagram
-                </Button>
-              </div>
-            </div>
-
-            {/* Social Media Fields */}
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="grid gap-2">
-                <Label htmlFor="whatsapp">WhatsApp</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="whatsapp"
-                    placeholder="+33 6 12 34 56 78"
-                    defaultValue={user.socialMedia.whatsapp}
-                    disabled={!isEditing}
-                  />
-                  {!isEditing && user.socialMedia.whatsapp && (
-                    <Button variant="outline" size="icon" onClick={handleWhatsApp}>
-                      <MessageCircle className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="facebook">Facebook</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="facebook"
-                    placeholder="nom.utilisateur"
-                    defaultValue={user.socialMedia.facebook}
-                    disabled={!isEditing}
-                  />
-                  {!isEditing && user.socialMedia.facebook && (
-                    <Button variant="outline" size="icon" onClick={handleFacebook}>
-                      <Facebook className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="twitter">Twitter</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="twitter"
-                    placeholder="@utilisateur"
-                    defaultValue={user.socialMedia.twitter}
-                    disabled={!isEditing}
-                  />
-                  {!isEditing && user.socialMedia.twitter && (
-                    <Button variant="outline" size="icon" onClick={handleTwitter}>
-                      <Twitter className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="linkedin">LinkedIn</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="linkedin"
-                    placeholder="nom-utilisateur"
-                    defaultValue={user.socialMedia.linkedin}
-                    disabled={!isEditing}
-                  />
-                  {!isEditing && user.socialMedia.linkedin && (
-                    <Button variant="outline" size="icon" onClick={handleLinkedIn}>
-                      <Linkedin className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="instagram">Instagram</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="instagram"
-                    placeholder="@utilisateur"
-                    defaultValue={user.socialMedia.instagram}
-                    disabled={!isEditing}
-                  />
-                  {!isEditing && user.socialMedia.instagram && (
-                    <Button variant="outline" size="icon" onClick={handleInstagram}>
-                      <Instagram className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
+                <Input value={joinDate} disabled />
               </div>
             </div>
           </div>
@@ -434,25 +329,54 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
       </Card>
 
       {/* Tabs for different sections */}
-      <Tabs defaultValue="purchases" className="space-y-4">
+      <Tabs defaultValue="info" className="space-y-4">
         <TabsList>
+          <TabsTrigger value="info">
+            <Activity className="mr-2 h-4 w-4" />
+            Informations
+          </TabsTrigger>
           <TabsTrigger value="purchases">
             <ShoppingBag className="mr-2 h-4 w-4" />
-            Achats ({user.purchases.length})
+            Achats
           </TabsTrigger>
           <TabsTrigger value="formations">
             <GraduationCap className="mr-2 h-4 w-4" />
-            Formations ({user.formations.length})
+            Formations
           </TabsTrigger>
           <TabsTrigger value="projects">
             <FolderKanban className="mr-2 h-4 w-4" />
-            Projets ({user.projects.length})
-          </TabsTrigger>
-          <TabsTrigger value="activity">
-            <Activity className="mr-2 h-4 w-4" />
-            Activité
+            Projets
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="info">
+          <Card>
+            <CardHeader>
+              <CardTitle>Informations supplémentaires</CardTitle>
+              <CardDescription>Détails du profil utilisateur</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <Label>Langue préférée</Label>
+                  <p className="text-sm">{user.language?.toUpperCase() || "Non définie"}</p>
+                </div>
+                <div className="space-y-2">
+                  <Label>Devise</Label>
+                  <p className="text-sm">{user.currency || "Non définie"}</p>
+                </div>
+                <div className="space-y-2">
+                  <Label>Statut VIP</Label>
+                  <p className="text-sm">{user.is_vip ? "Oui" : "Non"}</p>
+                </div>
+                <div className="space-y-2">
+                  <Label>Changement de mot de passe requis</Label>
+                  <p className="text-sm">{user.must_change_password ? "Oui" : "Non"}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="purchases">
           <Card>
@@ -461,30 +385,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               <CardDescription>Liste de tous les achats effectués par l&apos;utilisateur</CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Produit</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Montant</TableHead>
-                    <TableHead>Statut</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {user.purchases.map((purchase) => (
-                    <TableRow key={purchase.id}>
-                      <TableCell className="font-medium">{purchase.product}</TableCell>
-                      <TableCell>{purchase.date}</TableCell>
-                      <TableCell>{purchase.amount}</TableCell>
-                      <TableCell>
-                        <Badge variant={purchase.status === "Complété" ? "default" : "secondary"}>
-                          {purchase.status}
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <p className="text-sm text-muted-foreground">Aucun achat pour le moment</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -496,25 +397,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               <CardDescription>Formations auxquelles l&apos;utilisateur est inscrit</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                {user.formations.map((formation) => (
-                  <div key={formation.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <p className="font-medium">{formation.name}</p>
-                      <div className="flex items-center gap-2">
-                        <div className="w-48 h-2 bg-secondary rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-primary transition-all"
-                            style={{ width: `${formation.progress}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-muted-foreground">{formation.progress}%</span>
-                      </div>
-                    </div>
-                    <Badge variant={formation.status === "Terminé" ? "default" : "secondary"}>{formation.status}</Badge>
-                  </div>
-                ))}
-              </div>
+              <p className="text-sm text-muted-foreground">Aucune formation pour le moment</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -526,48 +409,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
               <CardDescription>Projets de développement de l&apos;utilisateur</CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Nom du projet</TableHead>
-                    <TableHead>Date de début</TableHead>
-                    <TableHead>Statut</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {user.projects.map((project) => (
-                    <TableRow key={project.id}>
-                      <TableCell className="font-medium">{project.name}</TableCell>
-                      <TableCell>{project.startDate}</TableCell>
-                      <TableCell>
-                        <Badge variant={project.status === "Terminé" ? "default" : "secondary"}>{project.status}</Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="activity">
-          <Card>
-            <CardHeader>
-              <CardTitle>Activité récente</CardTitle>
-              <CardDescription>Historique des actions de l&apos;utilisateur</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {user.activity.map((activity, index) => (
-                  <div key={index} className="flex items-start gap-4 pb-4 border-b last:border-0">
-                    <div className="h-2 w-2 rounded-full bg-primary mt-2" />
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{activity.action}</p>
-                      <p className="text-sm text-muted-foreground">{activity.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <p className="text-sm text-muted-foreground">Aucun projet pour le moment</p>
             </CardContent>
           </Card>
         </TabsContent>

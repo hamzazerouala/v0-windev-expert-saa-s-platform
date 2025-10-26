@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { type User, getStoredUser, storeUser, clearStoredUser } from "./mock-auth"
+import { type User, getStoredUser, storeUser, clearStoredUser } from "./supabase-auth"
 
 interface AuthContextType {
   user: User | null

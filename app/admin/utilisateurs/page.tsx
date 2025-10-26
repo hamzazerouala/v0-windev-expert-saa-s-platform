@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Search, UserPlus, Eye } from "lucide-react"
+import { Search, UserPlus, Eye, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Dialog,
   DialogContent,
@@ -21,61 +21,79 @@ import {
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
+
+interface User {
+  id: string
+  email: string
+  first_name: string
+  last_name: string
+  role: string
+  is_vip: boolean
+  created_at: string
+}
 
 export default function AdminUsersPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
+  const { toast } = useToast()
 
-  // Mock data - in production this would come from a database
-  const users = [
-    {
-      id: 1,
-      name: "Jean Dupont",
-      email: "jean.dupont@exemple.com",
-      role: "Client",
-      status: "Actif",
-      joinDate: "15 Mars 2024",
-      purchases: 5,
-    },
-    {
-      id: 2,
-      name: "Marie Martin",
-      email: "marie.martin@exemple.com",
-      role: "Client",
-      status: "Actif",
-      joinDate: "10 Mars 2024",
-      purchases: 3,
-    },
-    {
-      id: 3,
-      name: "Pierre Dubois",
-      email: "pierre.dubois@exemple.com",
-      role: "Admin",
-      status: "Actif",
-      joinDate: "1 Janvier 2024",
-      purchases: 0,
-    },
-    {
-      id: 4,
-      name: "Sophie Bernard",
-      email: "sophie.bernard@exemple.com",
-      role: "Client",
-      status: "Bloqué",
-      joinDate: "5 Février 2024",
-      purchases: 1,
-    },
-  ]
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const fetchUsers = async () => {
+    try {
+      setLoading(true)
+      const response = await fetch("/api/users")
+      if (!response.ok) throw new Error("Failed to fetch users")
+      const data = await response.json()
+      setUsers(data)
+    } catch (error) {
+      console.error("[v0] Error fetching users:", error)
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les utilisateurs",
+        variant: "destructive",
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const filteredUsers = users.filter(
     (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+      user.first_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.last_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
 
   const handleCreateUser = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle user creation
     setIsCreateDialogOpen(false)
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+  }
+
+  const getRoleBadgeVariant = (role: string) => {
+    return role === "admin" ? "default" : "secondary"
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    )
   }
 
   return (
@@ -166,40 +184,47 @@ export default function AdminUsersPage() {
                 <TableHead>Rôle</TableHead>
                 <TableHead>Statut</TableHead>
                 <TableHead>Date d&apos;inscription</TableHead>
-                <TableHead>Achats</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>
-                    <Badge variant={user.role === "Admin" ? "default" : "secondary"}>{user.role}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={
-                        user.status === "Actif" ? "default" : user.status === "Bloqué" ? "destructive" : "secondary"
-                      }
-                    >
-                      {user.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{user.joinDate}</TableCell>
-                  <TableCell>{user.purchases}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      <Link href={`/admin/utilisateurs/${user.id}`}>
-                        <Button variant="ghost" size="icon" title="Voir le profil">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                    </div>
+              {filteredUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground">
+                    Aucun utilisateur trouvé
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">
+                      {user.first_name} {user.last_name}
+                      {user.is_vip && (
+                        <Badge variant="secondary" className="ml-2">
+                          VIP
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <Badge variant={getRoleBadgeVariant(user.role)}>{user.role}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="default">Actif</Badge>
+                    </TableCell>
+                    <TableCell>{formatDate(user.created_at)}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link href={`/admin/utilisateurs/${user.id}`}>
+                          <Button variant="ghost" size="icon" title="Voir le profil">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

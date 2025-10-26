@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useState } from "react"
 import { useAuth } from "@/lib/auth/auth-context"
-import { authenticateUser, DEV_ACCOUNTS } from "@/lib/auth/mock-auth"
+import { authenticateUser } from "@/lib/auth/supabase-auth"
 import { useRouter } from "next/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
@@ -18,25 +18,39 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const { login } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
+    setIsLoading(true)
 
-    const user = authenticateUser(email, password)
+    try {
+      const user = await authenticateUser(email, password)
 
-    if (user?.role === "admin") {
-      setError("Les administrateurs doivent utiliser la page de connexion sécurisée")
-      return
-    }
+      if (user?.role === "admin") {
+        setError("Les administrateurs doivent utiliser la page de connexion sécurisée")
+        setIsLoading(false)
+        return
+      }
 
-    if (user) {
-      login(user)
-      router.push("/membre/dashboard")
-    } else {
-      setError("Email ou mot de passe incorrect")
+      if (user) {
+        login(user)
+        if (user.must_change_password) {
+          router.push("/membre/change-password")
+        } else {
+          router.push("/membre/dashboard")
+        }
+      } else {
+        setError("Email ou mot de passe incorrect")
+      }
+    } catch (err) {
+      console.error("[v0] Login error:", err)
+      setError("Une erreur est survenue lors de la connexion")
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -50,21 +64,6 @@ export default function LoginPage() {
               <CardDescription>Entrez vos identifiants pour accéder à votre compte</CardDescription>
             </CardHeader>
             <CardContent>
-              <Alert className="mb-4 bg-cyan-50 border-cyan-200">
-                <AlertCircle className="h-4 w-4 text-cyan-600" />
-                <AlertDescription className="text-sm text-cyan-900">
-                  <strong>Compte de test client :</strong>
-                  <div className="mt-2 space-y-1 text-xs">
-                    <div>
-                      <strong>Email :</strong> {DEV_ACCOUNTS.client.email}
-                    </div>
-                    <div>
-                      <strong>Mot de passe :</strong> {DEV_ACCOUNTS.client.password}
-                    </div>
-                  </div>
-                </AlertDescription>
-              </Alert>
-
               {error && (
                 <Alert variant="destructive" className="mb-4">
                   <AlertCircle className="h-4 w-4" />
@@ -82,6 +81,7 @@ export default function LoginPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    disabled={isLoading}
                   />
                 </div>
                 <div className="space-y-2">
@@ -97,10 +97,11 @@ export default function LoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    disabled={isLoading}
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Se connecter
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Connexion..." : "Se connecter"}
                 </Button>
               </form>
 
