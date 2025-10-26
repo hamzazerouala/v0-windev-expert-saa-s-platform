@@ -3,7 +3,16 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, ShoppingBag, GraduationCap, FolderKanban, User, LogOut } from "lucide-react"
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  GraduationCap,
+  FolderKanban,
+  User,
+  LogOut,
+  FileText,
+  Package,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const navItems = [
@@ -13,19 +22,29 @@ const navItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "Mes achats",
-    href: "/membre/achats",
-    icon: ShoppingBag,
-  },
-  {
     title: "Mes formations",
     href: "/membre/formations",
     icon: GraduationCap,
   },
   {
+    title: "Mes produits",
+    href: "/membre/produits",
+    icon: Package,
+  },
+  {
     title: "Mes projets",
     href: "/membre/projets",
     icon: FolderKanban,
+  },
+  {
+    title: "Mes documents",
+    href: "/membre/documents",
+    icon: FileText,
+  },
+  {
+    title: "Mes commandes",
+    href: "/membre/commandes",
+    icon: ShoppingBag,
   },
   {
     title: "Mon profil",

@@ -16,12 +16,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
+import { ThemeSwitcher } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { useLanguage } from "@/lib/language-provider"
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const { user, logout, isAuthenticated, isAdmin } = useAuth()
   const router = useRouter()
+  const { t } = useLanguage()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,32 +71,34 @@ export function SiteHeader() {
             href="/services"
             className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
           >
-            Services
+            {t("nav.services")}
           </Link>
           <Link
             href="/formations"
             className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
           >
-            Formations
+            {t("nav.formations")}
           </Link>
           <Link
             href="/boutique"
             className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
           >
-            Boutique
+            {t("nav.boutique")}
           </Link>
           <Link href="/blog" className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
-            Blog
+            {t("nav.blog")}
           </Link>
           <Link
             href="/contact"
             className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
           >
-            Contact
+            {t("nav.contact")}
           </Link>
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
           <CartButton />
 
           {isAuthenticated ? (
@@ -114,16 +120,16 @@ export function SiteHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => router.push(isAdmin ? "/admin/dashboard" : "/membre/dashboard")}>
                   <LayoutDashboard className="mr-2 h-4 w-4" />
-                  <span>{isAdmin ? "Administration" : "Mon espace"}</span>
+                  <span>{isAdmin ? t("nav.admin") : t("nav.mySpace")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push("/membre/profil")}>
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profil</span>
+                  <span>{t("member.myProfile")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Déconnexion</span>
+                  <span>{t("nav.logout")}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -131,11 +137,11 @@ export function SiteHeader() {
             <>
               <Link href="/auth/login" className="hidden md:inline-flex">
                 <Button variant="ghost" size="sm">
-                  Connexion
+                  {t("nav.login")}
                 </Button>
               </Link>
               <Link href="/auth/register" className="hidden md:inline-flex">
-                <Button size="sm">S&apos;inscrire</Button>
+                <Button size="sm">{t("nav.register")}</Button>
               </Link>
             </>
           )}
@@ -152,19 +158,19 @@ export function SiteHeader() {
         <div className="border-t border-border bg-background md:hidden">
           <nav className="container flex flex-col gap-4 py-4">
             <Link href="/services" className="text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Services
+              {t("nav.services")}
             </Link>
             <Link href="/formations" className="text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Formations
+              {t("nav.formations")}
             </Link>
             <Link href="/boutique" className="text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Boutique
+              {t("nav.boutique")}
             </Link>
             <Link href="/blog" className="text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Blog
+              {t("nav.blog")}
             </Link>
             <Link href="/contact" className="text-sm font-medium" onClick={() => setMobileMenuOpen(false)}>
-              Contact
+              {t("nav.contact")}
             </Link>
             <div className="flex flex-col gap-2 pt-2">
               {isAuthenticated ? (
@@ -178,7 +184,7 @@ export function SiteHeader() {
                     }}
                   >
                     <LayoutDashboard className="mr-2 h-4 w-4" />
-                    {isAdmin ? "Administration" : "Mon espace"}
+                    {isAdmin ? t("nav.admin") : t("nav.mySpace")}
                   </Button>
                   <Button
                     variant="outline"
@@ -189,18 +195,18 @@ export function SiteHeader() {
                     }}
                   >
                     <LogOut className="mr-2 h-4 w-4" />
-                    Déconnexion
+                    {t("nav.logout")}
                   </Button>
                 </>
               ) : (
                 <>
                   <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="outline" className="w-full bg-transparent">
-                      Connexion
+                      {t("nav.login")}
                     </Button>
                   </Link>
                   <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full">S&apos;inscrire</Button>
+                    <Button className="w-full">{t("nav.register")}</Button>
                   </Link>
                 </>
               )}

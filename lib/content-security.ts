@@ -69,3 +69,67 @@ export async function checkDeviceLimit(userId: string, deviceId: string, maxDevi
   // For now, just return true
   return true
 }
+
+/**
+ * Prevent screenshot capture on videos
+ */
+export function preventScreenCapture() {
+  if (typeof window === "undefined") return
+
+  // Disable screenshot shortcuts
+  document.addEventListener("keyup", (e) => {
+    // Prevent Print Screen
+    if (e.key === "PrintScreen") {
+      navigator.clipboard.writeText("")
+      alert("Les captures d'écran sont désactivées pour protéger le contenu")
+    }
+  })
+
+  // Detect screenshot attempts (Windows + Shift + S on Windows)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "PrintScreen" || (e.metaKey && e.shiftKey && e.key === "s")) {
+      e.preventDefault()
+      alert("Les captures d'écran sont désactivées pour protéger le contenu")
+      return false
+    }
+  })
+
+  // Blur content when window loses focus (potential screenshot)
+  document.addEventListener("visibilitychange", () => {
+    const videoElements = document.querySelectorAll("video")
+    videoElements.forEach((video) => {
+      if (document.hidden) {
+        video.style.filter = "blur(20px)"
+      } else {
+        video.style.filter = "none"
+      }
+    })
+  })
+}
+
+/**
+ * Add watermark overlay to video element
+ */
+export function addVideoWatermark(videoElement: HTMLVideoElement, watermarkText: string) {
+  const container = videoElement.parentElement
+  if (!container) return
+
+  const watermark = document.createElement("div")
+  watermark.style.cssText = `
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    white-space: nowrap;
+  `
+  watermark.textContent = watermarkText
+  container.style.position = "relative"
+  container.appendChild(watermark)
+}

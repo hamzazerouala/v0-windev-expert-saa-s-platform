@@ -27,14 +27,14 @@ export default function LoginPage() {
 
     const user = authenticateUser(email, password)
 
+    if (user?.role === "admin") {
+      setError("Les administrateurs doivent utiliser la page de connexion sécurisée")
+      return
+    }
+
     if (user) {
       login(user)
-      // Redirect based on role
-      if (user.role === "admin") {
-        router.push("/admin/dashboard")
-      } else {
-        router.push("/membre/dashboard")
-      }
+      router.push("/membre/dashboard")
     } else {
       setError("Email ou mot de passe incorrect")
     }
@@ -53,13 +53,13 @@ export default function LoginPage() {
               <Alert className="mb-4 bg-cyan-50 border-cyan-200">
                 <AlertCircle className="h-4 w-4 text-cyan-600" />
                 <AlertDescription className="text-sm text-cyan-900">
-                  <strong>Comptes de test :</strong>
+                  <strong>Compte de test client :</strong>
                   <div className="mt-2 space-y-1 text-xs">
                     <div>
-                      <strong>Client :</strong> {DEV_ACCOUNTS.client.email} / {DEV_ACCOUNTS.client.password}
+                      <strong>Email :</strong> {DEV_ACCOUNTS.client.email}
                     </div>
                     <div>
-                      <strong>Admin :</strong> {DEV_ACCOUNTS.admin.email} / {DEV_ACCOUNTS.admin.password}
+                      <strong>Mot de passe :</strong> {DEV_ACCOUNTS.client.password}
                     </div>
                   </div>
                 </AlertDescription>

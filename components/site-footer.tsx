@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import {
   Facebook,
@@ -11,10 +13,13 @@ import {
   Clock,
   HeadphonesIcon,
 } from "lucide-react"
+import { useLanguage } from "@/lib/language-provider"
 
 export function SiteFooter() {
+  const { t } = useLanguage()
+
   return (
-    <footer className="bg-white border-t border-slate-200 w-full">
+    <footer className="bg-slate-900 border-t border-slate-800 w-full">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="py-12 md:py-16">
@@ -26,14 +31,12 @@ export function SiteFooter() {
                   <span className="text-2xl font-bold text-white">W</span>
                 </div>
                 <div>
-                  <span className="text-xl md:text-2xl font-bold text-slate-900">WindevExpert</span>
-                  <p className="text-xs text-slate-500">Excellence en Développement</p>
+                  <span className="text-xl md:text-2xl font-bold text-white">WindevExpert</span>
+                  <p className="text-xs text-slate-400">{t("footer.tagline")}</p>
                 </div>
               </div>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed mb-6 max-w-md">
-                Leader français du développement d'applications sur mesure, de la formation technique avancée et du
-                consulting IT. Nous accompagnons les entreprises dans leur transformation digitale depuis plus de 10
-                ans.
+              <p className="text-sm md:text-base text-slate-400 leading-relaxed mb-6 max-w-md">
+                {t("footer.description")}
               </p>
 
               {/* Trust Badges */}
@@ -43,8 +46,8 @@ export function SiteFooter() {
                     <Award className="h-4 w-4 text-cyan-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-xs md:text-sm">Certifié</div>
-                    <div className="text-xs text-slate-500">ISO 9001</div>
+                    <div className="font-semibold text-white text-xs md:text-sm">{t("footer.certified")}</div>
+                    <div className="text-xs text-slate-400">{t("footer.certified.iso")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -52,8 +55,8 @@ export function SiteFooter() {
                     <Shield className="h-4 w-4 text-cyan-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-xs md:text-sm">Sécurisé</div>
-                    <div className="text-xs text-slate-500">RGPD</div>
+                    <div className="font-semibold text-white text-xs md:text-sm">{t("footer.secured")}</div>
+                    <div className="text-xs text-slate-400">{t("footer.secured.gdpr")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -61,8 +64,8 @@ export function SiteFooter() {
                     <Clock className="h-4 w-4 text-cyan-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-xs md:text-sm">Support</div>
-                    <div className="text-xs text-slate-500">24/7</div>
+                    <div className="font-semibold text-white text-xs md:text-sm">{t("footer.support")}</div>
+                    <div className="text-xs text-slate-400">{t("footer.support.247")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -70,15 +73,15 @@ export function SiteFooter() {
                     <HeadphonesIcon className="h-4 w-4 text-cyan-600" />
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-xs md:text-sm">Assistance</div>
-                    <div className="text-xs text-slate-500">Réactive</div>
+                    <div className="font-semibold text-white text-xs md:text-sm">{t("footer.assistance")}</div>
+                    <div className="text-xs text-slate-400">{t("footer.assistance.reactive")}</div>
                   </div>
                 </div>
               </div>
 
               {/* Social Links */}
               <div>
-                <p className="text-sm font-semibold text-slate-900 mb-3">Suivez-nous</p>
+                <p className="text-sm font-semibold text-white mb-3">{t("nav.followUs")}</p>
                 <div className="flex flex-wrap gap-2">
                   <Link
                     href="#"
@@ -122,62 +125,62 @@ export function SiteFooter() {
 
             {/* Services */}
             <div>
-              <h3 className="font-bold text-slate-900 mb-4 text-sm md:text-base">Services</h3>
+              <h3 className="font-bold text-white mb-4 text-sm md:text-base">{t("footer.services")}</h3>
               <ul className="space-y-2.5 text-xs md:text-sm">
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Développement Web
+                    {t("footer.services.webDev")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Applications Mobile
+                    {t("footer.services.mobile")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Solutions Desktop
+                    {t("footer.services.desktop")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    E-commerce
+                    {t("footer.services.ecommerce")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Consulting IT
+                    {t("footer.services.consulting")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Maintenance & Support
+                    {t("footer.services.maintenance")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/services"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Audit Technique
+                    {t("footer.services.audit")}
                   </Link>
                 </li>
               </ul>
@@ -185,62 +188,62 @@ export function SiteFooter() {
 
             {/* Technologies */}
             <div>
-              <h3 className="font-bold text-slate-900 mb-4 text-sm md:text-base">Technologies</h3>
+              <h3 className="font-bold text-white mb-4 text-sm md:text-base">{t("footer.technologies")}</h3>
               <ul className="space-y-2.5 text-xs md:text-sm">
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    WinDev / WebDev
+                    {t("footer.technologies.windev")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    WinDev Mobile
+                    {t("footer.technologies.mobile")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    WordPress
+                    {t("footer.technologies.wordpress")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    React / Next.js
+                    {t("footer.technologies.react")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Vue.js / Nuxt
+                    {t("footer.technologies.vue")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Node.js / Python
+                    {t("footer.technologies.node")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Intelligence Artificielle
+                    {t("footer.technologies.ai")}
                   </Link>
                 </li>
               </ul>
@@ -248,62 +251,62 @@ export function SiteFooter() {
 
             {/* Company */}
             <div>
-              <h3 className="font-bold text-slate-900 mb-4 text-sm md:text-base">Entreprise</h3>
+              <h3 className="font-bold text-white mb-4 text-sm md:text-base">{t("footer.company")}</h3>
               <ul className="space-y-2.5 text-xs md:text-sm">
                 <li>
                   <Link
                     href="/about"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    À propos
+                    {t("footer.company.about")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/formations"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Formations
+                    {t("footer.company.formations")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/boutique"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Boutique
+                    {t("footer.company.shop")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/blog"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Blog
+                    {t("footer.company.blog")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/contact"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Contact
+                    {t("footer.company.contact")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/careers"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Carrières
+                    {t("footer.company.careers")}
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/partners"
-                    className="text-slate-600 hover:text-cyan-600 transition-colors hover:translate-x-1 inline-block"
+                    className="text-slate-400 hover:text-cyan-400 transition-colors hover:translate-x-1 inline-block"
                   >
-                    Partenaires
+                    {t("footer.company.partners")}
                   </Link>
                 </li>
               </ul>
@@ -312,28 +315,30 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-200 py-6">
+        <div className="border-t border-slate-800 py-6">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-4 text-center lg:text-left">
-            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs md:text-sm text-slate-600">
-              <p>&copy; {new Date().getFullYear()} WindevExpert SAS. Tous droits réservés.</p>
-              <span className="hidden sm:inline text-slate-300">|</span>
-              <p className="text-xs">SIRET: 123 456 789 00012 - RCS Paris</p>
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-xs md:text-sm text-slate-400">
+              <p>
+                &copy; {new Date().getFullYear()} WindevExpert SAS. {t("footer.copyright")}.
+              </p>
+              <span className="hidden sm:inline text-slate-700">|</span>
+              <p className="text-xs">{t("footer.siret")}</p>
             </div>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-xs md:text-sm">
-              <Link href="/mentions-legales" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                Mentions légales
+              <Link href="/mentions-legales" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                {t("footer.legal")}
               </Link>
-              <Link href="/confidentialite" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                Confidentialité
+              <Link href="/confidentialite" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                {t("footer.privacy")}
               </Link>
-              <Link href="/cgv" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                CGV
+              <Link href="/cgv" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                {t("footer.cgv")}
               </Link>
-              <Link href="/cgu" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                CGU
+              <Link href="/cgu" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                {t("footer.cgu")}
               </Link>
-              <Link href="/cookies" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                Cookies
+              <Link href="/cookies" className="text-slate-400 hover:text-cyan-400 transition-colors">
+                {t("footer.cookies")}
               </Link>
             </div>
           </div>

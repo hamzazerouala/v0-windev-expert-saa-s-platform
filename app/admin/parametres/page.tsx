@@ -205,34 +205,44 @@ export default function ParametresPage() {
               <CardDescription>Configurez vos clés API pour les services externes</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Chargily */}
+              {/* Firebase */}
               <div className="space-y-4 rounded-lg border p-4">
-                <h3 className="font-semibold">Chargily (Paiement Algérie)</h3>
+                <h3 className="font-semibold">Firebase (Authentification SMS Admin)</h3>
+                <p className="text-sm text-muted-foreground">
+                  Requis uniquement pour l'authentification SMS de l'administrateur
+                </p>
                 <div className="space-y-2">
-                  <Label htmlFor="chargily-api-key">Clé API Chargily</Label>
+                  <Label htmlFor="firebase-api-key">Clé API Firebase</Label>
                   <div className="flex gap-2">
                     <Input
-                      id="chargily-api-key"
-                      type={showApiKeys.chargily ? "text" : "password"}
-                      placeholder="test_sk_..."
+                      id="firebase-api-key"
+                      type={showApiKeys.firebase ? "text" : "password"}
+                      placeholder="AIza..."
                     />
-                    <Button variant="outline" size="icon" onClick={() => toggleApiKeyVisibility("chargily")}>
-                      {showApiKeys.chargily ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    <Button variant="outline" size="icon" onClick={() => toggleApiKeyVisibility("firebase")}>
+                      {showApiKeys.firebase ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </Button>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="chargily-secret">Secret Chargily</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="chargily-secret"
-                      type={showApiKeys.chargilySecret ? "text" : "password"}
-                      placeholder="whsec_..."
-                    />
-                    <Button variant="outline" size="icon" onClick={() => toggleApiKeyVisibility("chargilySecret")}>
-                      {showApiKeys.chargilySecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
+                  <Label htmlFor="firebase-auth-domain">Domaine d'authentification</Label>
+                  <Input id="firebase-auth-domain" placeholder="votre-projet.firebaseapp.com" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="firebase-project-id">ID du projet</Label>
+                  <Input id="firebase-project-id" placeholder="votre-projet-id" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="firebase-storage-bucket">Storage Bucket</Label>
+                  <Input id="firebase-storage-bucket" placeholder="votre-projet.appspot.com" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="firebase-messaging-sender-id">Messaging Sender ID</Label>
+                  <Input id="firebase-messaging-sender-id" placeholder="123456789012" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="firebase-app-id">App ID</Label>
+                  <Input id="firebase-app-id" placeholder="1:123456789012:web:abc123def456" />
                 </div>
               </div>
 
@@ -326,7 +336,7 @@ export default function ParametresPage() {
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Activer Stripe</Label>
-                    <p className="text-sm text-muted-foreground">Pour les paiements internationaux</p>
+                    <p className="text-sm text-muted-foreground">Pour les paiements internationaux (EUR, USD)</p>
                   </div>
                   <Switch defaultChecked />
                 </div>
@@ -351,20 +361,102 @@ export default function ParametresPage() {
 
               {/* Chargily */}
               <div className="space-y-4 rounded-lg border p-4">
-                <h3 className="font-semibold">Chargily (Algérie)</h3>
+                <h3 className="font-semibold">Chargily (Algérie - DZD)</h3>
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>Activer Chargily</Label>
-                    <p className="text-sm text-muted-foreground">Pour les paiements en Algérie (DZD)</p>
+                    <p className="text-sm text-muted-foreground">Pour les paiements en ligne en Algérie (DZD)</p>
                   </div>
                   <Switch defaultChecked />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label>Paiement hors ligne</Label>
-                    <p className="text-sm text-muted-foreground">Virement CCP/Banque avec preuve</p>
+                <div className="space-y-2">
+                  <Label htmlFor="chargily-api-key">Clé API Chargily</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="chargily-api-key"
+                      type={showApiKeys.chargily ? "text" : "password"}
+                      placeholder="test_sk_..."
+                    />
+                    <Button variant="outline" size="icon" onClick={() => toggleApiKeyVisibility("chargily")}>
+                      {showApiKeys.chargily ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
                   </div>
-                  <Switch defaultChecked />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="chargily-secret">Secret Webhook Chargily</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="chargily-secret"
+                      type={showApiKeys.chargilySecret ? "text" : "password"}
+                      placeholder="whsec_..."
+                    />
+                    <Button variant="outline" size="icon" onClick={() => toggleApiKeyVisibility("chargilySecret")}>
+                      {showApiKeys.chargilySecret ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-4 border-t pt-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label>Paiement hors ligne (DZD)</Label>
+                      <p className="text-sm text-muted-foreground">Virement CCP/Banque avec upload de preuve</p>
+                    </div>
+                    <Switch defaultChecked />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="ccp-account">Compte CCP</Label>
+                    <Input id="ccp-account" placeholder="Ex: 0012345678 Clé: 12" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bank-account">Compte bancaire</Label>
+                    <Input id="bank-account" placeholder="Ex: 00123456789012345678" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="account-holder">Bénéficiaire</Label>
+                    <Input id="account-holder" placeholder="WindevExpert SAS" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="bank-name">Nom de la banque</Label>
+                    <Input id="bank-name" placeholder="Ex: BNA, CPA, BADR..." />
+                  </div>
+                </div>
+              </div>
+
+              {/* IBAN pour virements EUR/USD */}
+              <div className="space-y-4 rounded-lg border p-4">
+                <h3 className="font-semibold">Virements bancaires instantanés (EUR/USD)</h3>
+                <p className="text-sm text-muted-foreground">
+                  Pour les paiements par virement bancaire en Europe et international
+                </p>
+
+                <div className="space-y-2">
+                  <Label htmlFor="iban-eur">IBAN (EUR)</Label>
+                  <Input id="iban-eur" placeholder="FR76 1234 5678 9012 3456 7890 123" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="swift-eur">Code SWIFT/BIC (EUR)</Label>
+                  <Input id="swift-eur" placeholder="BNPAFRPPXXX" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="iban-usd">IBAN (USD)</Label>
+                  <Input id="iban-usd" placeholder="US12 3456 7890 1234 5678 90" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="swift-usd">Code SWIFT/BIC (USD)</Label>
+                  <Input id="swift-usd" placeholder="CHASUS33XXX" />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="bank-holder-intl">Titulaire du compte</Label>
+                  <Input id="bank-holder-intl" defaultValue="WindevExpert SAS" />
                 </div>
               </div>
 
@@ -375,21 +467,23 @@ export default function ParametresPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>DZD - Dinar Algérien</Label>
-                      <p className="text-sm text-muted-foreground">Pour l'Algérie</p>
+                      <p className="text-sm text-muted-foreground">Algérie - Chargily + Hors ligne</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>EUR - Euro</Label>
-                      <p className="text-sm text-muted-foreground">Pour l'Europe</p>
+                      <p className="text-sm text-muted-foreground">Europe - Stripe + Virement IBAN</p>
                     </div>
                     <Switch defaultChecked />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>USD - Dollar Américain</Label>
-                      <p className="text-sm text-muted-foreground">Pour l'Afrique et reste du monde</p>
+                      <p className="text-sm text-muted-foreground">
+                        Afrique et reste du monde - Stripe + Virement IBAN
+                      </p>
                     </div>
                     <Switch defaultChecked />
                   </div>
@@ -526,6 +620,14 @@ export default function ParametresPage() {
               <CardDescription>Paramètres de sécurité et authentification</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="admin-phone">Numéro de téléphone administrateur</Label>
+                <Input id="admin-phone" type="tel" defaultValue="+213558440392" placeholder="+213 XXX XXX XXX" />
+                <p className="text-sm text-muted-foreground">
+                  Numéro utilisé pour l'authentification SMS de l'administrateur (format international)
+                </p>
+              </div>
+
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label>Authentification à deux facteurs (2FA)</Label>

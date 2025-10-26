@@ -47,6 +47,7 @@
     "crypto": "latest",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
+    "firebase": "latest",
     "fs": "latest",
     "immer": "latest",
     "input-otp": "1.4.1",

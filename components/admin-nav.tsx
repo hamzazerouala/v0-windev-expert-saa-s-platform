@@ -13,6 +13,9 @@ import {
   BarChart3,
   Settings,
   LogOut,
+  UserCheck,
+  FolderOpen,
+  BookOpen,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -26,6 +29,11 @@ const navItems = [
     title: "Utilisateurs",
     href: "/admin/utilisateurs",
     icon: Users,
+  },
+  {
+    title: "Formateurs",
+    href: "/admin/formateurs",
+    icon: UserCheck,
   },
   {
     title: "Produits",
@@ -43,9 +51,24 @@ const navItems = [
     icon: GraduationCap,
   },
   {
+    title: "Blog",
+    href: "/admin/blog",
+    icon: BookOpen,
+  },
+  {
+    title: "Demandes de Devis",
+    href: "/admin/devis",
+    icon: FileText,
+  },
+  {
     title: "Projets",
     href: "/admin/projets",
     icon: FolderKanban,
+  },
+  {
+    title: "Documents",
+    href: "/admin/documents",
+    icon: FolderOpen,
   },
   {
     title: "Rapports",

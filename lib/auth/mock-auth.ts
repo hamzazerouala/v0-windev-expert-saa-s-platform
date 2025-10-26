@@ -9,6 +9,7 @@ export interface User {
   name: string
   role: UserRole
   avatar?: string
+  phone?: string // Added phone field for admin SMS auth
 }
 
 // Test accounts for development
@@ -33,6 +34,7 @@ export const DEV_ACCOUNTS = {
       name: "Marie Admin",
       role: "admin" as UserRole,
       avatar: "/avatars/admin.jpg",
+      phone: "123-456-7890", // Added phone number for admin SMS auth
     },
   },
 }
@@ -43,9 +45,9 @@ export function authenticateUser(email: string, password: string): User | null {
     return DEV_ACCOUNTS.client.user
   }
 
-  // Check admin account
-  if (email === DEV_ACCOUNTS.admin.email && password === DEV_ACCOUNTS.admin.password) {
-    return DEV_ACCOUNTS.admin.user
+  // Admin must use SMS authentication at /nimda
+  if (email === DEV_ACCOUNTS.admin.email) {
+    return null // Block admin login from regular form
   }
 
   return null

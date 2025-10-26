@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, MessageSquare, Paperclip } from "lucide-react"
+import { Calendar, MessageSquare, Paperclip, CheckCircle2, CreditCard } from "lucide-react"
 
 export default function MemberProjectsPage() {
   // Mock data - in production this would come from a database
@@ -16,8 +16,11 @@ export default function MemberProjectsPage() {
       startDate: "1 Mars 2024",
       dueDate: "15 Avril 2024",
       budget: 5000,
+      currency: "EUR",
       messages: 12,
       attachments: 8,
+      tasksToValidate: 3,
+      pendingPayments: 1,
     },
     {
       id: 2,
@@ -28,8 +31,11 @@ export default function MemberProjectsPage() {
       startDate: "10 Mars 2024",
       dueDate: "30 Avril 2024",
       budget: 3500,
+      currency: "EUR",
       messages: 5,
       attachments: 3,
+      tasksToValidate: 0,
+      pendingPayments: 2,
     },
     {
       id: 3,
@@ -40,8 +46,11 @@ export default function MemberProjectsPage() {
       startDate: "1 Février 2024",
       dueDate: "28 Février 2024",
       budget: 4000,
+      currency: "EUR",
       messages: 28,
       attachments: 15,
+      tasksToValidate: 0,
+      pendingPayments: 0,
     },
   ]
 
@@ -65,7 +74,6 @@ export default function MemberProjectsPage() {
           <h1 className="text-3xl font-bold mb-2">Mes projets</h1>
           <p className="text-muted-foreground">Suivez l&apos;avancement de vos projets de développement</p>
         </div>
-        <Button>Nouveau projet</Button>
       </div>
 
       <div className="space-y-4">
@@ -77,6 +85,18 @@ export default function MemberProjectsPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <CardTitle>{project.title}</CardTitle>
                     <Badge variant={getStatusColor(project.status)}>{project.status}</Badge>
+                    {project.tasksToValidate > 0 && (
+                      <Badge variant="destructive" className="gap-1">
+                        <CheckCircle2 className="h-3 w-3" />
+                        {project.tasksToValidate} à valider
+                      </Badge>
+                    )}
+                    {project.pendingPayments > 0 && (
+                      <Badge variant="secondary" className="gap-1">
+                        <CreditCard className="h-3 w-3" />
+                        {project.pendingPayments} paiement(s)
+                      </Badge>
+                    )}
                   </div>
                   <CardDescription>{project.description}</CardDescription>
                 </div>
@@ -101,7 +121,9 @@ export default function MemberProjectsPage() {
                 <div className="flex items-center gap-2 text-sm">
                   <div>
                     <div className="text-muted-foreground">Budget</div>
-                    <div className="font-medium">{project.budget}€</div>
+                    <div className="font-medium">
+                      {project.budget} {project.currency}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -127,6 +149,18 @@ export default function MemberProjectsPage() {
 
               <div className="flex gap-2">
                 <Button>Voir les détails</Button>
+                {project.tasksToValidate > 0 && (
+                  <Button variant="outline">
+                    <CheckCircle2 className="mr-2 h-4 w-4" />
+                    Valider les tâches
+                  </Button>
+                )}
+                {project.pendingPayments > 0 && (
+                  <Button variant="outline">
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    Payer
+                  </Button>
+                )}
                 <Button variant="outline">
                   <MessageSquare className="mr-2 h-4 w-4" />
                   Messages
