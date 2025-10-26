@@ -1,7 +1,5 @@
 "use client"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -21,7 +19,6 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="flex min-h-screen flex-col">
-        <SiteHeader />
         <main className="flex-1 flex items-center justify-center">
           <div className="container max-w-md text-center py-20">
             <ShoppingBag className="h-24 w-24 mx-auto mb-6 text-muted-foreground" />
@@ -34,15 +31,12 @@ export default function CartPage() {
             </Link>
           </div>
         </main>
-        <SiteFooter />
       </div>
     )
   }
 
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-
       <main className="flex-1">
         <section className="container py-12">
           <h1 className="text-3xl font-bold mb-8">Panier</h1>
@@ -145,8 +139,6 @@ export default function CartPage() {
           </div>
         </section>
       </main>
-
-      <SiteFooter />
     </div>
   )
 }

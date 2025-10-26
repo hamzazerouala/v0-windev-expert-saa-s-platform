@@ -1,7 +1,5 @@
 "use client"
 
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -121,14 +119,12 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <div className="flex min-h-screen flex-col">
-        <SiteHeader />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Produit non trouvé</h1>
             <Button onClick={() => router.push("/boutique")}>Retour à la boutique</Button>
           </div>
         </main>
-        <SiteFooter />
       </div>
     )
   }
@@ -147,8 +143,6 @@ export default function ProductDetailPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-
       <main className="flex-1">
         <section className="container py-12">
           <div className="grid gap-8 lg:grid-cols-2">
@@ -222,8 +216,6 @@ export default function ProductDetailPage() {
           </div>
         </section>
       </main>
-
-      <SiteFooter />
     </div>
   )
 }

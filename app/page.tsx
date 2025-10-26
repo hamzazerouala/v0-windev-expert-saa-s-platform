@@ -21,19 +21,11 @@ import {
   Brain,
   Cpu,
   Sparkles,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Youtube,
-  Mail,
-  Phone,
-  MapPin,
   Layout,
   Palette,
   Puzzle,
 } from "lucide-react"
 import Link from "next/link"
-import { Input } from "@/components/ui/input"
 
 export default function HomePage() {
   return (
@@ -845,171 +837,7 @@ export default function HomePage() {
       </section>
 
       {/* Pre-Footer CTA Section */}
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-white to-slate-100 relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(6,182,212,0.05),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(14,165,233,0.05),transparent_50%)]" />
-
-        <div className="container relative">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="lg:col-span-1">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-cyan-500 shrink-0">
-                    <span className="text-xl font-bold text-white">W</span>
-                  </div>
-                  <span className="text-xl font-bold text-slate-900">WindevExpert</span>
-                </div>
-                <p className="text-sm leading-relaxed mb-6 text-slate-600">
-                  Votre partenaire de confiance pour le développement d'applications, la formation technique et
-                  l'accompagnement personnalisé dans vos projets digitaux.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm border border-slate-200/50 hover:bg-cyan-500 hover:border-cyan-500 text-slate-600 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
-                  >
-                    <Facebook className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm border border-slate-200/50 hover:bg-cyan-500 hover:border-cyan-500 text-slate-600 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
-                  >
-                    <Twitter className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm border border-slate-200/50 hover:bg-cyan-500 hover:border-cyan-500 text-slate-600 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
-                  >
-                    <Linkedin className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="#"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/60 backdrop-blur-sm border border-slate-200/50 hover:bg-cyan-500 hover:border-cyan-500 text-slate-600 hover:text-white transition-all duration-300 hover:scale-110 shadow-sm"
-                  >
-                    <Youtube className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm hover:shadow-md transition-all duration-300">
-                <h3 className="font-semibold text-slate-900 mb-4 text-base">Services & Solutions</h3>
-                <ul className="space-y-2.5 text-sm">
-                  <li>
-                    <Link href="/services" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Développement sur Mesure
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Formations Techniques
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/services" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Assistance Technique
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/services" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Consulting IT
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/boutique" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Boutique
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/blog" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Blog & Actualités
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm hover:shadow-md transition-all duration-300">
-                <h3 className="font-semibold text-slate-900 mb-4 text-base">Technologies</h3>
-                <ul className="space-y-2.5 text-sm">
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      WinDev
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      WebDev
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      WinDev Mobile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      WordPress
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      React & Vue.js
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/formations" className="text-slate-600 hover:text-cyan-600 transition-colors block">
-                      Intelligence Artificielle
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="p-6 rounded-xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm hover:shadow-md transition-all duration-300">
-                <h3 className="font-semibold text-slate-900 mb-4 text-base">Contact</h3>
-                <ul className="space-y-2.5 text-sm mb-6">
-                  <li className="flex items-start gap-2">
-                    <Mail className="h-4 w-4 mt-0.5 text-cyan-600 shrink-0" />
-                    <a
-                      href="mailto:contact@windevexpert.com"
-                      className="text-slate-600 hover:text-cyan-600 transition-colors break-all"
-                    >
-                      contact@windevexpert.com
-                    </a>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Phone className="h-4 w-4 mt-0.5 text-cyan-600 shrink-0" />
-                    <a href="tel:+33123456789" className="text-slate-600 hover:text-cyan-600 transition-colors">
-                      +33 1 23 45 67 89
-                    </a>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <MapPin className="h-4 w-4 mt-0.5 text-cyan-600 shrink-0" />
-                    <span className="text-slate-600">Paris, France</span>
-                  </li>
-                </ul>
-
-                <div>
-                  <h4 className="font-semibold text-slate-900 mb-2 text-sm">Newsletter</h4>
-                  <p className="text-xs mb-3 text-slate-600">Restez informé</p>
-                  <div className="flex gap-2">
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      className="bg-white/60 backdrop-blur-sm border-slate-200 text-slate-900 placeholder:text-slate-400 h-9 text-sm"
-                    />
-                    <Button
-                      size="sm"
-                      className="bg-cyan-500 hover:bg-cyan-600 text-white transition-all duration-300 hover:scale-105 shrink-0"
-                    >
-                      OK
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Removed to eliminate footer duplication */}
     </div>
   )
 }

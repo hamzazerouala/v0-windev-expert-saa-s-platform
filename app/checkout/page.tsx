@@ -1,6 +1,4 @@
 "use client"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useCartStore } from "@/lib/store/cart-store"
@@ -35,8 +33,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-
       <main className="flex-1">
         <section className="container py-12">
           <h1 className="text-3xl font-bold mb-8">Finaliser la commande</h1>
@@ -102,8 +98,6 @@ export default function CheckoutPage() {
           </div>
         </section>
       </main>
-
-      <SiteFooter />
     </div>
   )
 }

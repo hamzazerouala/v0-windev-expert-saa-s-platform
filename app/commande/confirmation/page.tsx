@@ -1,5 +1,3 @@
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle } from "lucide-react"
@@ -8,8 +6,6 @@ import Link from "next/link"
 export default function OrderConfirmationPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
-
       <main className="flex-1 flex items-center justify-center">
         <div className="container max-w-2xl py-20">
           <Card>
@@ -51,8 +47,6 @@ export default function OrderConfirmationPage() {
           </Card>
         </div>
       </main>
-
-      <SiteFooter />
     </div>
   )
 }

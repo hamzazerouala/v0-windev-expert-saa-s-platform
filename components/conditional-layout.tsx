@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { usePathname } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
@@ -9,9 +8,9 @@ import { SiteFooter } from "@/components/site-footer"
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
 
-  // Don't show site header/footer in member or admin areas
   const isProtectedArea = pathname?.startsWith("/membre") || pathname?.startsWith("/admin")
 
+  // The protected area layouts will handle their own headers and footers
   if (isProtectedArea) {
     return <>{children}</>
   }
@@ -19,7 +18,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SiteHeader />
-      <main>{children}</main>
+      {children}
       <SiteFooter />
     </>
   )

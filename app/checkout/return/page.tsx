@@ -2,8 +2,6 @@
 
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { SiteHeader } from "@/components/site-header"
-import { SiteFooter } from "@/components/site-footer"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react"
@@ -119,7 +117,6 @@ function ReturnContent() {
 export default function CheckoutReturnPage() {
   return (
     <div className="flex min-h-screen flex-col">
-      <SiteHeader />
       <main className="flex-1">
         <section className="container py-12">
           <Suspense
@@ -133,7 +130,6 @@ export default function CheckoutReturnPage() {
           </Suspense>
         </section>
       </main>
-      <SiteFooter />
     </div>
   )
 }
