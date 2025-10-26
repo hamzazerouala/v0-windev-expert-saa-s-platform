@@ -1,11 +1,15 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { ShoppingBag, GraduationCap, FolderKanban, TrendingUp, Clock, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/lib/language-provider"
 
 export default function MemberDashboardPage() {
-  // Mock data - in production this would come from a database
+  const { t } = useLanguage()
+
   const stats = {
     totalPurchases: 5,
     activeTrainings: 3,
@@ -57,53 +61,53 @@ export default function MemberDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Tableau de bord</h1>
-        <p className="text-muted-foreground">Bienvenue dans votre espace membre WindevExpert</p>
+        <h1 className="text-3xl font-bold mb-2">{t("member.dashboard.title")}</h1>
+        <p className="text-muted-foreground">{t("member.dashboard.welcome")}</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Achats totaux</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("member.dashboard.stats.totalPurchases")}</CardTitle>
             <ShoppingBag className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalPurchases}</div>
-            <p className="text-xs text-muted-foreground">Produits et services</p>
+            <p className="text-xs text-muted-foreground">{t("member.dashboard.stats.productsServices")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Formations actives</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("member.dashboard.stats.activeTrainings")}</CardTitle>
             <GraduationCap className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.activeTrainings}</div>
-            <p className="text-xs text-muted-foreground">En cours d&apos;apprentissage</p>
+            <p className="text-xs text-muted-foreground">{t("member.dashboard.stats.inProgress")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Projets en cours</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("member.dashboard.stats.activeProjects")}</CardTitle>
             <FolderKanban className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.activeProjects}</div>
-            <p className="text-xs text-muted-foreground">Projets actifs</p>
+            <p className="text-xs text-muted-foreground">{t("member.dashboard.stats.activeProjectsDesc")}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Formations terminées</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("member.dashboard.stats.completedTrainings")}</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.completedTrainings}</div>
-            <p className="text-xs text-muted-foreground">Certificats obtenus</p>
+            <p className="text-xs text-muted-foreground">{t("member.dashboard.stats.certificates")}</p>
           </CardContent>
         </Card>
       </div>
@@ -113,12 +117,12 @@ export default function MemberDashboardPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Mes formations en cours</CardTitle>
-              <CardDescription>Continuez votre apprentissage</CardDescription>
+              <CardTitle>{t("member.dashboard.recentTrainings.title")}</CardTitle>
+              <CardDescription>{t("member.dashboard.recentTrainings.description")}</CardDescription>
             </div>
             <Link href="/membre/formations">
               <Button variant="outline" size="sm">
-                Voir tout
+                {t("common.viewAll")}
               </Button>
             </Link>
           </div>
@@ -146,7 +150,7 @@ export default function MemberDashboardPage() {
                 </div>
                 <div className="space-y-1">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Progression</span>
+                    <span className="text-muted-foreground">{t("common.progress")}</span>
                     <span className="font-medium">{training.progress}%</span>
                   </div>
                   <Progress value={training.progress} />
@@ -162,12 +166,12 @@ export default function MemberDashboardPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Mes projets</CardTitle>
-              <CardDescription>Suivi de vos projets en cours</CardDescription>
+              <CardTitle>{t("member.dashboard.recentProjects.title")}</CardTitle>
+              <CardDescription>{t("member.dashboard.recentProjects.description")}</CardDescription>
             </div>
             <Link href="/membre/projets">
               <Button variant="outline" size="sm">
-                Voir tout
+                {t("common.viewAll")}
               </Button>
             </Link>
           </div>
@@ -178,13 +182,15 @@ export default function MemberDashboardPage() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h4 className="font-semibold">{project.title}</h4>
-                  <p className="text-sm text-muted-foreground">Échéance : {project.dueDate}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("member.dashboard.recentProjects.dueDate")} : {project.dueDate}
+                  </p>
                 </div>
                 <span className="text-sm font-medium text-primary">{project.status}</span>
               </div>
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Avancement</span>
+                  <span className="text-muted-foreground">{t("common.progress")}</span>
                   <span className="font-medium">{project.progress}%</span>
                 </div>
                 <Progress value={project.progress} />

@@ -14,47 +14,49 @@ import {
   Package,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const navItems = [
-  {
-    title: "Tableau de bord",
-    href: "/membre/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Mes formations",
-    href: "/membre/formations",
-    icon: GraduationCap,
-  },
-  {
-    title: "Mes produits",
-    href: "/membre/produits",
-    icon: Package,
-  },
-  {
-    title: "Mes projets",
-    href: "/membre/projets",
-    icon: FolderKanban,
-  },
-  {
-    title: "Mes documents",
-    href: "/membre/documents",
-    icon: FileText,
-  },
-  {
-    title: "Mes commandes",
-    href: "/membre/commandes",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Mon profil",
-    href: "/membre/profil",
-    icon: User,
-  },
-]
+import { useLanguage } from "@/lib/language-provider"
 
 export function MemberNav() {
   const pathname = usePathname()
+  const { t } = useLanguage()
+
+  const navItems = [
+    {
+      title: t("member.nav.dashboard"),
+      href: "/membre/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: t("member.nav.formations"),
+      href: "/membre/formations",
+      icon: GraduationCap,
+    },
+    {
+      title: t("member.nav.products"),
+      href: "/membre/produits",
+      icon: Package,
+    },
+    {
+      title: t("member.nav.projects"),
+      href: "/membre/projets",
+      icon: FolderKanban,
+    },
+    {
+      title: t("member.nav.documents"),
+      href: "/membre/documents",
+      icon: FileText,
+    },
+    {
+      title: t("member.nav.orders"),
+      href: "/membre/commandes",
+      icon: ShoppingBag,
+    },
+    {
+      title: t("member.nav.profile"),
+      href: "/membre/profil",
+      icon: User,
+    },
+  ]
 
   return (
     <nav className="flex flex-col gap-2">
@@ -78,7 +80,7 @@ export function MemberNav() {
         <Link href="/auth/login">
           <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive">
             <LogOut className="mr-2 h-4 w-4" />
-            Déconnexion
+            {t("member.nav.logout")}
           </Button>
         </Link>
       </div>

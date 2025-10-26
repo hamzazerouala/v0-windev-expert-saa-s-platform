@@ -16,15 +16,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { useLanguage } from "@/lib/language-provider"
 
 export function MemberHeader() {
   const { user, logout } = useAuth()
   const router = useRouter()
-
-  const handleLogout = () => {
-    logout()
-    router.push("/")
-  }
+  const { t } = useLanguage()
 
   const getUserInitials = () => {
     if (!user) return "U"
@@ -35,6 +32,11 @@ export function MemberHeader() {
       .toUpperCase()
   }
 
+  const handleLogout = () => {
+    logout()
+    router.push("/")
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
@@ -42,7 +44,7 @@ export function MemberHeader() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <span className="text-lg font-bold text-primary-foreground">W</span>
           </div>
-          <span className="text-xl font-bold">Espace Membre</span>
+          <span className="text-xl font-bold">{t("member.header.title")}</span>
         </Link>
 
         <div className="flex items-center gap-3">
@@ -52,7 +54,7 @@ export function MemberHeader() {
           <Link href="/">
             <Button variant="ghost" size="sm">
               <Home className="mr-2 h-4 w-4" />
-              Retour au site
+              {t("member.header.backToSite")}
             </Button>
           </Link>
 
@@ -74,12 +76,12 @@ export function MemberHeader() {
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => router.push("/membre/profil")}>
                 <User className="mr-2 h-4 w-4" />
-                <span>Mon profil</span>
+                <span>{t("member.header.myProfile")}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Déconnexion</span>
+                <span>{t("member.header.logout")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
