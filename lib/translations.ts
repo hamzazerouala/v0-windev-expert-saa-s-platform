@@ -253,38 +253,140 @@ export const translations: Record<Language, Record<string, string>> = {
     "common.no": "Non",
 
     // Quote Form Translations
-    "quote.title.general": "Demande de Devis Personnalisé",
-    "quote.title.wordpress": "Demande de Devis WordPress",
-    "quote.description": "Complétez ce formulaire en {steps} étapes pour recevoir un devis adapté à vos besoins",
-    "quote.step.projectType": "Type de projet",
-    "quote.step.details": "Détails",
-    "quote.step.info": "Vos informations",
-    "quote.projectType.question": "Quel type de projet souhaitez-vous réaliser ?",
-    "quote.services.question": "Quels services vous intéressent ? (plusieurs choix possibles)",
-    "quote.currency": "Devise",
-    "quote.budget": "Budget estimé",
-    "quote.budget.placeholder": "Sélectionnez votre budget",
-    "quote.timeline": "Délai souhaité",
-    "quote.timeline.placeholder": "Quand souhaitez-vous démarrer ?",
+    "quote.titleGeneral": "Demande de Devis Personnalisé",
+    "quote.titleWordpress": "Demande de Devis WordPress",
+    "quote.description": "Complétez ce formulaire en quelques étapes pour recevoir un devis adapté à vos besoins",
+
+    // Steps
+    "quote.steps.projectType": "Type de projet",
+    "quote.steps.details": "Détails",
+    "quote.steps.info": "Vos informations",
+
+    // Step 1 - Project Type
+    "quote.step1.question": "Quel type de projet souhaitez-vous réaliser ?",
+    "quote.step1.servicesQuestion": "Quels services vous intéressent ? (plusieurs choix possibles)",
+
+    // Project Types - General
+    "quote.projectTypes.web": "Application Web",
+    "quote.projectTypes.webDesc": "Site web, plateforme en ligne, application web progressive",
+    "quote.projectTypes.mobile": "Application Mobile",
+    "quote.projectTypes.mobileDesc": "Application iOS, Android ou multiplateforme",
+    "quote.projectTypes.desktop": "Application Desktop",
+    "quote.projectTypes.desktopDesc": "Logiciel Windows, Mac ou Linux",
+    "quote.projectTypes.saas": "Plateforme SaaS",
+    "quote.projectTypes.saasDesc": "Solution cloud avec abonnements et gestion multi-utilisateurs",
+    "quote.projectTypes.ecommerce": "E-commerce",
+    "quote.projectTypes.ecommerceDesc": "Boutique en ligne avec paiement et gestion des commandes",
+    "quote.projectTypes.wordpress": "Site WordPress",
+    "quote.projectTypes.wordpressDesc": "Site WordPress personnalisé avec thème et plugins sur mesure",
+
+    // Project Types - WordPress Specific
+    "quote.projectTypes.showcase": "Site Vitrine",
+    "quote.projectTypes.showcaseDesc": "Site de présentation pour votre entreprise ou activité",
+    "quote.projectTypes.blog": "Blog",
+    "quote.projectTypes.blogDesc": "Blog professionnel avec système de publication",
+    "quote.projectTypes.custom": "Projet Sur Mesure",
+    "quote.projectTypes.customDesc": "Solution WordPress entièrement personnalisée",
+
+    // Services - General
+    "quote.services.development": "Développement",
+    "quote.services.design": "Design UI/UX",
+    "quote.services.apiIntegration": "Intégration API",
+    "quote.services.database": "Base de données",
+    "quote.services.authentication": "Authentification",
+    "quote.services.payment": "Paiement en ligne",
+    "quote.services.hosting": "Hébergement",
+    "quote.services.maintenance": "Maintenance",
+    "quote.services.training": "Formation",
+    "quote.services.consulting": "Consulting",
+
+    // Services - WordPress Specific
+    "quote.services.customTheme": "Thème personnalisé",
+    "quote.services.customPlugins": "Plugins sur mesure",
+    "quote.services.migration": "Migration de site",
+    "quote.services.seo": "Optimisation SEO",
+    "quote.services.security": "Sécurité renforcée",
+
+    // Step 2 - Details
+    "quote.step2.currency": "Devise",
+    "quote.step2.budget": "Budget estimé",
+    "quote.step2.budgetPlaceholder": "Sélectionnez votre budget",
+    "quote.step2.timeline": "Délai souhaité",
+    "quote.step2.timelinePlaceholder": "Quand souhaitez-vous démarrer ?",
+    "quote.step2.features": "Fonctionnalités souhaitées (plusieurs choix possibles)",
+
+    // Budget Ranges - DZD
+    "quote.budget.dzd.range1": "Moins de 500 000 DZD",
+    "quote.budget.dzd.range2": "500 000 - 1 000 000 DZD",
+    "quote.budget.dzd.range3": "1 000 000 - 2 500 000 DZD",
+    "quote.budget.dzd.range4": "2 500 000 - 5 000 000 DZD",
+    "quote.budget.dzd.range5": "Plus de 5 000 000 DZD",
+
+    // Budget Ranges - EUR
+    "quote.budget.eur.range1": "Moins de 5 000 €",
+    "quote.budget.eur.range2": "5 000 € - 10 000 €",
+    "quote.budget.eur.range3": "10 000 € - 25 000 €",
+    "quote.budget.eur.range4": "25 000 € - 50 000 €",
+    "quote.budget.eur.range5": "Plus de 50 000 €",
+
+    // Budget Ranges - USD
+    "quote.budget.usd.range1": "Moins de 5 000 $",
+    "quote.budget.usd.range2": "5 000 $ - 10 000 $",
+    "quote.budget.usd.range3": "10 000 $ - 25 000 $",
+    "quote.budget.usd.range4": "25 000 $ - 50 000 $",
+    "quote.budget.usd.range5": "Plus de 50 000 $",
+
+    "quote.budget.flexible": "Budget flexible",
+
+    // Timeline
     "quote.timeline.urgent": "Urgent (moins d'1 mois)",
-    "quote.timeline.1-3months": "1 à 3 mois",
-    "quote.timeline.3-6months": "3 à 6 mois",
-    "quote.timeline.6+months": "Plus de 6 mois",
+    "quote.timeline.oneToThree": "1 à 3 mois",
+    "quote.timeline.threeToSix": "3 à 6 mois",
+    "quote.timeline.moreThanSix": "Plus de 6 mois",
     "quote.timeline.flexible": "Flexible",
-    "quote.features.question": "Fonctionnalités souhaitées (plusieurs choix possibles)",
-    "quote.name": "Nom complet",
-    "quote.company": "Entreprise",
-    "quote.email": "Email",
-    "quote.phone": "Téléphone",
-    "quote.description": "Décrivez votre projet",
-    "quote.description.placeholder": "Parlez-nous de votre projet, vos objectifs, vos contraintes...",
-    "quote.button.previous": "Précédent",
-    "quote.button.next": "Suivant",
-    "quote.button.submit": "Envoyer ma demande",
-    "quote.button.sending": "Envoi en cours...",
+
+    // Features - General
+    "quote.features.adminDashboard": "Tableau de bord admin",
+    "quote.features.userManagement": "Gestion des utilisateurs",
+    "quote.features.pushNotifications": "Notifications push",
+    "quote.features.realtimeChat": "Chat en temps réel",
+    "quote.features.securePayment": "Paiement sécurisé",
+    "quote.features.dataExport": "Export de données",
+    "quote.features.restApi": "API REST",
+    "quote.features.ai": "Intelligence artificielle",
+
+    // Features - WordPress Specific
+    "quote.features.multilingual": "Multilingue",
+    "quote.features.woocommerce": "WooCommerce",
+    "quote.features.memberArea": "Espace membre",
+    "quote.features.advancedForms": "Formulaires avancés",
+    "quote.features.photoGallery": "Galerie photos",
+    "quote.features.onlineBooking": "Réservation en ligne",
+    "quote.features.newsletter": "Newsletter",
+    "quote.features.liveChat": "Chat en direct",
+
+    // Step 3 - Client Info
+    "quote.step3.name": "Nom complet",
+    "quote.step3.namePlaceholder": "Votre nom et prénom",
+    "quote.step3.company": "Entreprise",
+    "quote.step3.companyPlaceholder": "Nom de votre entreprise (optionnel)",
+    "quote.step3.email": "Email",
+    "quote.step3.emailPlaceholder": "votre@email.com",
+    "quote.step3.phone": "Téléphone",
+    "quote.step3.phonePlaceholder": "+33 6 12 34 56 78",
+    "quote.step3.description": "Décrivez votre projet",
+    "quote.step3.descriptionPlaceholder": "Parlez-nous de votre projet, vos objectifs, vos contraintes...",
+
+    // Navigation
+    "quote.navigation.previous": "Précédent",
+    "quote.navigation.next": "Suivant",
+    "quote.navigation.submit": "Envoyer ma demande",
+    "quote.navigation.sending": "Envoi en cours...",
+
+    // Success
     "quote.success.title": "Demande envoyée !",
     "quote.success.message": "Merci pour votre demande. Notre équipe va l'étudier et vous recontactera dans les 24h.",
-    "quote.button.close": "Fermer",
+    "quote.success.close": "Fermer",
 
     // Contact Page Translations
     "contact.title": "Contactez-nous",
@@ -560,38 +662,140 @@ export const translations: Record<Language, Record<string, string>> = {
     "common.no": "No",
 
     // Quote Form Translations
-    "quote.title.general": "Custom Quote Request",
-    "quote.title.wordpress": "WordPress Quote Request",
-    "quote.description": "Complete this form in {steps} steps to receive a quote tailored to your needs",
-    "quote.step.projectType": "Project type",
-    "quote.step.details": "Details",
-    "quote.step.info": "Your information",
-    "quote.projectType.question": "What type of project would you like to create?",
-    "quote.services.question": "Which services are you interested in? (multiple choices possible)",
-    "quote.currency": "Currency",
-    "quote.budget": "Estimated budget",
-    "quote.budget.placeholder": "Select your budget",
-    "quote.timeline": "Desired timeline",
-    "quote.timeline.placeholder": "When would you like to start?",
+    "quote.titleGeneral": "Custom Quote Request",
+    "quote.titleWordpress": "WordPress Quote Request",
+    "quote.description": "Complete this form in a few steps to receive a quote tailored to your needs",
+
+    // Steps
+    "quote.steps.projectType": "Project type",
+    "quote.steps.details": "Details",
+    "quote.steps.info": "Your information",
+
+    // Step 1 - Project Type
+    "quote.step1.question": "What type of project would you like to create?",
+    "quote.step1.servicesQuestion": "Which services are you interested in? (multiple choices possible)",
+
+    // Project Types - General
+    "quote.projectTypes.web": "Web Application",
+    "quote.projectTypes.webDesc": "Website, online platform, progressive web app",
+    "quote.projectTypes.mobile": "Mobile Application",
+    "quote.projectTypes.mobileDesc": "iOS, Android or cross-platform application",
+    "quote.projectTypes.desktop": "Desktop Application",
+    "quote.projectTypes.desktopDesc": "Windows, Mac or Linux software",
+    "quote.projectTypes.saas": "SaaS Platform",
+    "quote.projectTypes.saasDesc": "Cloud solution with subscriptions and multi-user management",
+    "quote.projectTypes.ecommerce": "E-commerce",
+    "quote.projectTypes.ecommerceDesc": "Online store with payment and order management",
+    "quote.projectTypes.wordpress": "WordPress Site",
+    "quote.projectTypes.wordpressDesc": "Custom WordPress site with custom theme and plugins",
+
+    // Project Types - WordPress Specific
+    "quote.projectTypes.showcase": "Showcase Site",
+    "quote.projectTypes.showcaseDesc": "Presentation site for your business or activity",
+    "quote.projectTypes.blog": "Blog",
+    "quote.projectTypes.blogDesc": "Professional blog with publishing system",
+    "quote.projectTypes.custom": "Custom Project",
+    "quote.projectTypes.customDesc": "Fully customized WordPress solution",
+
+    // Services - General
+    "quote.services.development": "Development",
+    "quote.services.design": "UI/UX Design",
+    "quote.services.apiIntegration": "API Integration",
+    "quote.services.database": "Database",
+    "quote.services.authentication": "Authentication",
+    "quote.services.payment": "Online Payment",
+    "quote.services.hosting": "Hosting",
+    "quote.services.maintenance": "Maintenance",
+    "quote.services.training": "Training",
+    "quote.services.consulting": "Consulting",
+
+    // Services - WordPress Specific
+    "quote.services.customTheme": "Custom theme",
+    "quote.services.customPlugins": "Custom plugins",
+    "quote.services.migration": "Site migration",
+    "quote.services.seo": "SEO optimization",
+    "quote.services.security": "Enhanced security",
+
+    // Step 2 - Details
+    "quote.step2.currency": "Currency",
+    "quote.step2.budget": "Estimated budget",
+    "quote.step2.budgetPlaceholder": "Select your budget",
+    "quote.step2.timeline": "Desired timeline",
+    "quote.step2.timelinePlaceholder": "When would you like to start?",
+    "quote.step2.features": "Desired features (multiple choices possible)",
+
+    // Budget Ranges - DZD
+    "quote.budget.dzd.range1": "Less than 500,000 DZD",
+    "quote.budget.dzd.range2": "500,000 - 1,000,000 DZD",
+    "quote.budget.dzd.range3": "1,000,000 - 2,500,000 DZD",
+    "quote.budget.dzd.range4": "2,500,000 - 5,000,000 DZD",
+    "quote.budget.dzd.range5": "More than 5,000,000 DZD",
+
+    // Budget Ranges - EUR
+    "quote.budget.eur.range1": "Less than €5,000",
+    "quote.budget.eur.range2": "€5,000 - €10,000",
+    "quote.budget.eur.range3": "€10,000 - €25,000",
+    "quote.budget.eur.range4": "€25,000 - €50,000",
+    "quote.budget.eur.range5": "More than €50,000",
+
+    // Budget Ranges - USD
+    "quote.budget.usd.range1": "Less than $5,000",
+    "quote.budget.usd.range2": "$5,000 - $10,000",
+    "quote.budget.usd.range3": "$10,000 - $25,000",
+    "quote.budget.usd.range4": "$25,000 - $50,000",
+    "quote.budget.usd.range5": "More than $50,000",
+
+    "quote.budget.flexible": "Flexible budget",
+
+    // Timeline
     "quote.timeline.urgent": "Urgent (less than 1 month)",
-    "quote.timeline.1-3months": "1 to 3 months",
-    "quote.timeline.3-6months": "3 to 6 months",
-    "quote.timeline.6+months": "More than 6 months",
+    "quote.timeline.oneToThree": "1 to 3 months",
+    "quote.timeline.threeToSix": "3 to 6 months",
+    "quote.timeline.moreThanSix": "More than 6 months",
     "quote.timeline.flexible": "Flexible",
-    "quote.features.question": "Desired features (multiple choices possible)",
-    "quote.name": "Full name",
-    "quote.company": "Company",
-    "quote.email": "Email",
-    "quote.phone": "Phone",
-    "quote.description": "Describe your project",
-    "quote.description.placeholder": "Tell us about your project, your goals, your constraints...",
-    "quote.button.previous": "Previous",
-    "quote.button.next": "Next",
-    "quote.button.submit": "Send my request",
-    "quote.button.sending": "Sending...",
+
+    // Features - General
+    "quote.features.adminDashboard": "Admin dashboard",
+    "quote.features.userManagement": "User management",
+    "quote.features.pushNotifications": "Push notifications",
+    "quote.features.realtimeChat": "Real-time chat",
+    "quote.features.securePayment": "Secure payment",
+    "quote.features.dataExport": "Data export",
+    "quote.features.restApi": "REST API",
+    "quote.features.ai": "Artificial intelligence",
+
+    // Features - WordPress Specific
+    "quote.features.multilingual": "Multilingual",
+    "quote.features.woocommerce": "WooCommerce",
+    "quote.features.memberArea": "Member area",
+    "quote.features.advancedForms": "Advanced forms",
+    "quote.features.photoGallery": "Photo gallery",
+    "quote.features.onlineBooking": "Online booking",
+    "quote.features.newsletter": "Newsletter",
+    "quote.features.liveChat": "Live chat",
+
+    // Step 3 - Client Info
+    "quote.step3.name": "Full name",
+    "quote.step3.namePlaceholder": "Your first and last name",
+    "quote.step3.company": "Company",
+    "quote.step3.companyPlaceholder": "Your company name (optional)",
+    "quote.step3.email": "Email",
+    "quote.step3.emailPlaceholder": "your@email.com",
+    "quote.step3.phone": "Phone",
+    "quote.step3.phonePlaceholder": "+1 234 567 8900",
+    "quote.step3.description": "Describe your project",
+    "quote.step3.descriptionPlaceholder": "Tell us about your project, your goals, your constraints...",
+
+    // Navigation
+    "quote.navigation.previous": "Previous",
+    "quote.navigation.next": "Next",
+    "quote.navigation.submit": "Send my request",
+    "quote.navigation.sending": "Sending...",
+
+    // Success
     "quote.success.title": "Request sent!",
     "quote.success.message": "Thank you for your request. Our team will review it and contact you within 24 hours.",
-    "quote.button.close": "Close",
+    "quote.success.close": "Close",
 
     // Contact Page Translations
     "contact.title": "Contact Us",
@@ -685,7 +889,7 @@ export const translations: Record<Language, Record<string, string>> = {
     "windev.products.webdev.description": "إنشاء مواقع ويب وتطبيقات ويب ديناميكية مع WebDev وأحدث التقنيات.",
     "windev.products.mobile.title": "WinDev Mobile",
     "windev.products.mobile.description": "تطبيقات موبايل أصلية لنظامي iOS و Android مع WinDev Mobile لتجربة مثالية.",
-    "windev.products.hfsql.title": "HFSQL و WLanguage",
+    "windev.products.hfsql.title": "HFSQL و WLangage",
     "windev.products.hfsql.description": "إتقان كامل لـ HFSQL و WLanguage للحصول على حلول قوية وعالية الأداء.",
     "windev.training.title": "التدريب والمرافقة",
     "windev.training.description": "ندرب فرق المطورين لديك على تقنيات PC SOFT ونرافقهم في مشاريعهم لضمان نجاحهم.",
@@ -855,38 +1059,140 @@ export const translations: Record<Language, Record<string, string>> = {
     "common.no": "لا",
 
     // Quote Form Translations
-    "quote.title.general": "طلب عرض أسعار مخصص",
-    "quote.title.wordpress": "طلب عرض أسعار ووردبريس",
-    "quote.description": "أكمل هذا النموذج في {steps} خطوات للحصول على عرض أسعار مصمم حسب احتياجاتك",
-    "quote.step.projectType": "نوع المشروع",
-    "quote.step.details": "التفاصيل",
-    "quote.step.info": "معلوماتك",
-    "quote.projectType.question": "ما نوع المشروع الذي تريد إنشاءه؟",
-    "quote.services.question": "ما هي الخدمات التي تهمك؟ (اختيارات متعددة ممكنة)",
-    "quote.currency": "العملة",
-    "quote.budget": "الميزانية المقدرة",
-    "quote.budget.placeholder": "اختر ميزانيتك",
-    "quote.timeline": "الجدول الزمني المطلوب",
-    "quote.timeline.placeholder": "متى تريد البدء؟",
+    "quote.titleGeneral": "طلب عرض أسعار مخصص",
+    "quote.titleWordpress": "طلب عرض أسعار ووردبريس",
+    "quote.description": "أكمل هذا النموذج في بضع خطوات للحصول على عرض أسعار مصمم حسب احتياجاتك",
+
+    // Steps
+    "quote.steps.projectType": "نوع المشروع",
+    "quote.steps.details": "التفاصيل",
+    "quote.steps.info": "معلوماتك",
+
+    // Step 1 - Project Type
+    "quote.step1.question": "ما نوع المشروع الذي تريد إنشاءه؟",
+    "quote.step1.servicesQuestion": "ما هي الخدمات التي تهمك؟ (اختيارات متعددة ممكنة)",
+
+    // Project Types - General
+    "quote.projectTypes.web": "تطبيق ويب",
+    "quote.projectTypes.webDesc": "موقع ويب، منصة عبر الإنترنت، تطبيق ويب تقدمي",
+    "quote.projectTypes.mobile": "تطبيق موبايل",
+    "quote.projectTypes.mobileDesc": "تطبيق iOS أو Android أو متعدد المنصات",
+    "quote.projectTypes.desktop": "تطبيق سطح المكتب",
+    "quote.projectTypes.desktopDesc": "برنامج Windows أو Mac أو Linux",
+    "quote.projectTypes.saas": "منصة SaaS",
+    "quote.projectTypes.saasDesc": "حل سحابي مع اشتراكات وإدارة متعددة المستخدمين",
+    "quote.projectTypes.ecommerce": "تجارة إلكترونية",
+    "quote.projectTypes.ecommerceDesc": "متجر عبر الإنترنت مع الدفع وإدارة الطلبات",
+    "quote.projectTypes.wordpress": "موقع ووردبريس",
+    "quote.projectTypes.wordpressDesc": "موقع ووردبريس مخصص مع قالب وإضافات مخصصة",
+
+    // Project Types - WordPress Specific
+    "quote.projectTypes.showcase": "موقع عرض",
+    "quote.projectTypes.showcaseDesc": "موقع تقديمي لشركتك أو نشاطك",
+    "quote.projectTypes.blog": "مدونة",
+    "quote.projectTypes.blogDesc": "مدونة احترافية مع نظام نشر",
+    "quote.projectTypes.custom": "مشروع مخصص",
+    "quote.projectTypes.customDesc": "حل ووردبريس مخصص بالكامل",
+
+    // Services - General
+    "quote.services.development": "تطوير",
+    "quote.services.design": "تصميم UI/UX",
+    "quote.services.apiIntegration": "تكامل API",
+    "quote.services.database": "قاعدة بيانات",
+    "quote.services.authentication": "مصادقة",
+    "quote.services.payment": "دفع عبر الإنترنت",
+    "quote.services.hosting": "استضافة",
+    "quote.services.maintenance": "صيانة",
+    "quote.services.training": "تدريب",
+    "quote.services.consulting": "استشارات",
+
+    // Services - WordPress Specific
+    "quote.services.customTheme": "قالب مخصص",
+    "quote.services.customPlugins": "إضافات مخصصة",
+    "quote.services.migration": "نقل الموقع",
+    "quote.services.seo": "تحسين SEO",
+    "quote.services.security": "أمان معزز",
+
+    // Step 2 - Details
+    "quote.step2.currency": "العملة",
+    "quote.step2.budget": "الميزانية المقدرة",
+    "quote.step2.budgetPlaceholder": "اختر ميزانيتك",
+    "quote.step2.timeline": "الجدول الزمني المطلوب",
+    "quote.step2.timelinePlaceholder": "متى تريد البدء؟",
+    "quote.step2.features": "الميزات المطلوبة (اختيارات متعددة ممكنة)",
+
+    // Budget Ranges - DZD
+    "quote.budget.dzd.range1": "أقل من 500,000 دج",
+    "quote.budget.dzd.range2": "500,000 - 1,000,000 دج",
+    "quote.budget.dzd.range3": "1,000,000 - 2,500,000 دج",
+    "quote.budget.dzd.range4": "2,500,000 - 5,000,000 دج",
+    "quote.budget.dzd.range5": "أكثر من 5,000,000 دج",
+
+    // Budget Ranges - EUR
+    "quote.budget.eur.range1": "أقل من 5,000 €",
+    "quote.budget.eur.range2": "5,000 € - 10,000 €",
+    "quote.budget.eur.range3": "10,000 € - 25,000 €",
+    "quote.budget.eur.range4": "25,000 € - 50,000 €",
+    "quote.budget.eur.range5": "أكثر من 50,000 €",
+
+    // Budget Ranges - USD
+    "quote.budget.usd.range1": "أقل من 5,000 $",
+    "quote.budget.usd.range2": "5,000 $ - 10,000 $",
+    "quote.budget.usd.range3": "10,000 $ - 25,000 $",
+    "quote.budget.usd.range4": "25,000 $ - 50,000 $",
+    "quote.budget.usd.range5": "أكثر من 50,000 $",
+
+    "quote.budget.flexible": "ميزانية مرنة",
+
+    // Timeline
     "quote.timeline.urgent": "عاجل (أقل من شهر)",
-    "quote.timeline.1-3months": "من 1 إلى 3 أشهر",
-    "quote.timeline.3-6months": "من 3 إلى 6 أشهر",
-    "quote.timeline.6+months": "أكثر من 6 أشهر",
+    "quote.timeline.oneToThree": "من 1 إلى 3 أشهر",
+    "quote.timeline.threeToSix": "من 3 إلى 6 أشهر",
+    "quote.timeline.moreThanSix": "أكثر من 6 أشهر",
     "quote.timeline.flexible": "مرن",
-    "quote.features.question": "الميزات المطلوبة (اختيارات متعددة ممكنة)",
-    "quote.name": "الاسم الكامل",
-    "quote.company": "الشركة",
-    "quote.email": "البريد الإلكتروني",
-    "quote.phone": "الهاتف",
-    "quote.description": "صف مشروعك",
-    "quote.description.placeholder": "أخبرنا عن مشروعك وأهدافك وقيودك...",
-    "quote.button.previous": "السابق",
-    "quote.button.next": "التالي",
-    "quote.button.submit": "إرسال طلبي",
-    "quote.button.sending": "جاري الإرسال...",
+
+    // Features - General
+    "quote.features.adminDashboard": "لوحة تحكم الإدارة",
+    "quote.features.userManagement": "إدارة المستخدمين",
+    "quote.features.pushNotifications": "إشعارات فورية",
+    "quote.features.realtimeChat": "دردشة في الوقت الفعلي",
+    "quote.features.securePayment": "دفع آمن",
+    "quote.features.dataExport": "تصدير البيانات",
+    "quote.features.restApi": "REST API",
+    "quote.features.ai": "ذكاء اصطناعي",
+
+    // Features - WordPress Specific
+    "quote.features.multilingual": "متعدد اللغات",
+    "quote.features.woocommerce": "WooCommerce",
+    "quote.features.memberArea": "منطقة الأعضاء",
+    "quote.features.advancedForms": "نماذج متقدمة",
+    "quote.features.photoGallery": "معرض صور",
+    "quote.features.onlineBooking": "حجز عبر الإنترنت",
+    "quote.features.newsletter": "نشرة إخبارية",
+    "quote.features.liveChat": "دردشة مباشرة",
+
+    // Step 3 - Client Info
+    "quote.step3.name": "الاسم الكامل",
+    "quote.step3.namePlaceholder": "اسمك الأول والأخير",
+    "quote.step3.company": "الشركة",
+    "quote.step3.companyPlaceholder": "اسم شركتك (اختياري)",
+    "quote.step3.email": "البريد الإلكتروني",
+    "quote.step3.emailPlaceholder": "your@email.com",
+    "quote.step3.phone": "الهاتف",
+    "quote.step3.phonePlaceholder": "+213 555 123 456",
+    "quote.step3.description": "صف مشروعك",
+    "quote.step3.descriptionPlaceholder": "أخبرنا عن مشروعك وأهدافك وقيودك...",
+
+    // Navigation
+    "quote.navigation.previous": "السابق",
+    "quote.navigation.next": "التالي",
+    "quote.navigation.submit": "إرسال طلبي",
+    "quote.navigation.sending": "جاري الإرسال...",
+
+    // Success
     "quote.success.title": "تم إرسال الطلب!",
     "quote.success.message": "شكرا لطلبك. سيقوم فريقنا بدراسته والاتصال بك خلال 24 ساعة.",
-    "quote.button.close": "إغلاق",
+    "quote.success.close": "إغلاق",
 
     // Contact Page Translations
     "contact.title": "اتصل بنا",
