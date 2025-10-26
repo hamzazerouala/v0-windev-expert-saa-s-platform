@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,120 +13,66 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Plus, MoreHorizontal, Edit, Trash2, Eye, Download, Package } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
+import { Search, Plus, MoreHorizontal, Edit, Trash2, Eye, Package } from "lucide-react"
 import Link from "next/link"
+import { getProducts, deleteProduct } from "@/app/actions/products"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 
 export default function AdminProductsPage() {
-  // Mock data - in production this would come from a database
-  const products = [
-    {
-      id: 1,
-      name: "GestStock Pro",
-      type: "Logiciel",
-      category: "Gestion",
-      price: 499,
-      pricingModel: "Unique",
-      stock: "Illimité",
-      status: "Actif",
-      sales: 34,
-      downloads: 102,
-      version: "2.1.0",
-      fileSize: "45 MB",
-    },
-    {
-      id: 2,
-      name: "Pack Composants UI",
-      type: "Composant",
-      category: "Interface",
-      price: 149,
-      pricingModel: "Unique",
-      stock: "Illimité",
-      status: "Actif",
-      sales: 89,
-      downloads: 267,
-      version: "1.5.2",
-      fileSize: "12 MB",
-    },
-    {
-      id: 3,
-      name: "Template E-commerce",
-      type: "Template",
-      category: "Web",
-      price: 199,
-      pricingModel: "Unique",
-      stock: "Illimité",
-      status: "Actif",
-      sales: 56,
-      downloads: 168,
-      version: "3.0.1",
-      fileSize: "28 MB",
-    },
-    {
-      id: 4,
-      name: "Plugin SEO Advanced",
-      type: "Plugin",
-      category: "Marketing",
-      price: 79,
-      pricingModel: "Abonnement",
-      stock: "Illimité",
-      status: "Actif",
-      sales: 123,
-      downloads: 369,
-      version: "1.2.0",
-      fileSize: "5 MB",
-    },
-    {
-      id: 5,
-      name: "Consulting - 5 heures",
-      type: "Service",
-      category: "Consulting",
-      price: 750,
-      pricingModel: "Unique",
-      stock: "Limité",
-      status: "Actif",
-      sales: 12,
-      downloads: 0,
-      version: "-",
-      fileSize: "-",
-    },
-    {
-      id: 6,
-      name: "Maintenance Mensuelle",
-      type: "Service",
-      category: "Support",
-      price: 299,
-      pricingModel: "Abonnement",
-      stock: "Limité",
-      status: "Actif",
-      sales: 45,
-      downloads: 0,
-      version: "-",
-      fileSize: "-",
-    },
-    {
-      id: 7,
-      name: "Module de paiement",
-      type: "Composant",
-      category: "E-commerce",
-      price: 199,
-      pricingModel: "Unique",
-      stock: "Illimité",
-      status: "Brouillon",
-      sales: 0,
-      downloads: 0,
-      version: "1.0.0",
-      fileSize: "8 MB",
-    },
-  ]
+  const [products, setProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [deleteId, setDeleteId] = useState<string | null>(null)
+  const router = useRouter()
+  const { toast } = useToast()
+
+  useEffect(() => {
+    loadProducts()
+  }, [])
+
+  async function loadProducts() {
+    setLoading(true)
+    const result = await getProducts()
+    if (result.success) {
+      setProducts(result.products)
+    }
+    setLoading(false)
+  }
+
+  async function handleDelete(id: string) {
+    const result = await deleteProduct(id)
+    if (result.success) {
+      toast({
+        title: "Produit supprimé",
+        description: "Le produit a été supprimé avec succès",
+      })
+      loadProducts()
+    } else {
+      toast({
+        title: "Erreur",
+        description: result.error || "Impossible de supprimer le produit",
+        variant: "destructive",
+      })
+    }
+    setDeleteId(null)
+  }
 
   const stats = {
     total: products.length,
-    active: products.filter((p) => p.status === "Actif").length,
-    digital: products.filter((p) => p.type !== "Service").length,
-    services: products.filter((p) => p.type === "Service").length,
-    totalSales: products.reduce((acc, p) => acc + p.sales, 0),
-    totalDownloads: products.reduce((acc, p) => acc + p.downloads, 0),
+    active: products.filter((p: any) => p.is_active).length,
+    digital: products.filter((p: any) => p.type !== "service").length,
+    services: products.filter((p: any) => p.type === "service").length,
   }
 
   return (
@@ -160,7 +108,7 @@ export default function AdminProductsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.digital}</div>
-            <p className="text-xs text-muted-foreground">{stats.totalDownloads} téléchargements</p>
+            <p className="text-xs text-muted-foreground">Logiciels, composants, templates</p>
           </CardContent>
         </Card>
         <Card>
@@ -174,11 +122,13 @@ export default function AdminProductsPage() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Ventes totales</CardTitle>
+            <CardTitle className="text-sm font-medium">Revenus</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats.totalSales}</div>
-            <p className="text-xs text-muted-foreground">Tous les produits</p>
+            <div className="text-2xl font-bold">
+              {products.reduce((acc: number, p: any) => acc + (p.price_cents || 0), 0) / 100}€
+            </div>
+            <p className="text-xs text-muted-foreground">Valeur totale</p>
           </CardContent>
         </Card>
       </div>
@@ -191,19 +141,6 @@ export default function AdminProductsPage() {
               <CardDescription>{products.length} produits au total</CardDescription>
             </div>
             <div className="flex items-center gap-4">
-              <Select defaultValue="tous">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="tous">Tous les types</SelectItem>
-                  <SelectItem value="logiciel">Logiciels</SelectItem>
-                  <SelectItem value="composant">Composants</SelectItem>
-                  <SelectItem value="template">Templates</SelectItem>
-                  <SelectItem value="plugin">Plugins</SelectItem>
-                  <SelectItem value="service">Services</SelectItem>
-                </SelectContent>
-              </Select>
               <div className="relative w-64">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input placeholder="Rechercher..." className="pl-9" />
@@ -219,89 +156,103 @@ export default function AdminProductsPage() {
                 <TableHead>Type</TableHead>
                 <TableHead>Catégorie</TableHead>
                 <TableHead>Prix</TableHead>
-                <TableHead>Modèle</TableHead>
-                <TableHead>Ventes</TableHead>
-                <TableHead>Version</TableHead>
                 <TableHead>Statut</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {products.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <Package className="h-4 w-4 text-muted-foreground" />
-                      {product.name}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{product.type}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">{product.category}</Badge>
-                  </TableCell>
-                  <TableCell className="font-medium">{product.price}€</TableCell>
-                  <TableCell>
-                    <Badge variant={product.pricingModel === "Abonnement" ? "default" : "secondary"}>
-                      {product.pricingModel}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <span className="font-medium">{product.sales}</span>
-                      {product.downloads > 0 && (
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
-                          <Download className="h-3 w-3" />
-                          {product.downloads}
-                        </span>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">{product.version}</TableCell>
-                  <TableCell>
-                    <Badge variant={product.status === "Actif" ? "default" : "secondary"}>{product.status}</Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                          <Link href={`/admin/produits/${product.id}`}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            Voir les détails
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Edit className="mr-2 h-4 w-4" />
-                          Modifier
-                        </DropdownMenuItem>
-                        {product.type !== "Service" && (
-                          <DropdownMenuItem>
-                            <Download className="mr-2 h-4 w-4" />
-                            Télécharger le fichier
-                          </DropdownMenuItem>
-                        )}
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Supprimer
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                    Chargement...
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : products.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                    Aucun produit trouvé. Créez votre premier produit.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                products.map((product: any) => (
+                  <TableRow key={product.id}>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-2">
+                        <Package className="h-4 w-4 text-muted-foreground" />
+                        {product.name}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{product.type || "Produit"}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="secondary">{product.categories?.name || "Non catégorisé"}</Badge>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      {(product.price_cents / 100).toFixed(2)} {product.currency || "EUR"}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={product.is_active ? "default" : "secondary"}>
+                        {product.is_active ? "Actif" : "Inactif"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem asChild>
+                            <Link href={`/admin/produits/${product.id}`}>
+                              <Edit className="mr-2 h-4 w-4" />
+                              Modifier
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/boutique/${product.id}`} target="_blank">
+                              <Eye className="mr-2 h-4 w-4" />
+                              Voir sur le site
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive" onClick={() => setDeleteId(product.id)}>
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Supprimer
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
       </Card>
+
+      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer ce produit ? Cette action est irréversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deleteId && handleDelete(deleteId)}
+              className="bg-destructive text-destructive-foreground"
+            >
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

@@ -3,8 +3,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import {
   Clock,
-  Users,
-  Star,
   PlayCircle,
   Award,
   Video,
@@ -19,89 +17,20 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getFormations } from "@/app/actions/formations"
 
-export default function FormationsPage() {
-  const formations = [
-    {
-      id: 1,
-      title: "WinDev - Débutant à Expert",
-      description:
-        "Maîtrisez WinDev de A à Z avec cette formation complète couvrant tous les aspects du développement.",
-      level: "Tous niveaux",
-      duration: "40 heures",
-      students: 245,
-      rating: 4.8,
-      price: 299,
-      image: "/windev-development-course.jpg",
-      icon: Code2,
-      color: "cyan",
-    },
-    {
-      id: 2,
-      title: "WebDev - Développement Web Moderne",
-      description: "Créez des applications web performantes et responsive avec WebDev et les dernières technologies.",
-      level: "Intermédiaire",
-      duration: "35 heures",
-      students: 189,
-      rating: 4.9,
-      price: 279,
-      image: "/web-development-course.png",
-      icon: Globe,
-      color: "blue",
-    },
-    {
-      id: 3,
-      title: "WinDev Mobile - Applications Mobiles",
-      description: "Développez des applications mobiles natives pour iOS et Android avec WinDev Mobile.",
-      level: "Intermédiaire",
-      duration: "30 heures",
-      students: 156,
-      rating: 4.7,
-      price: 259,
-      image: "/mobile-app-development.png",
-      icon: Smartphone,
-      color: "purple",
-    },
-    {
-      id: 4,
-      title: "Base de données avec HyperFileSQL",
-      description: "Maîtrisez la gestion de bases de données avec HyperFileSQL Classic et Client/Serveur.",
-      level: "Débutant",
-      duration: "25 heures",
-      students: 312,
-      rating: 4.6,
-      price: 199,
-      image: "/database-management-course.jpg",
-      icon: Database,
-      color: "emerald",
-    },
-    {
-      id: 5,
-      title: "Architecture Logicielle Avancée",
-      description: "Concevez des architectures robustes et scalables pour vos applications d'entreprise.",
-      level: "Avancé",
-      duration: "20 heures",
-      students: 98,
-      rating: 4.9,
-      price: 349,
-      image: "/software-architecture-course.png",
-      icon: Layers,
-      color: "orange",
-    },
-    {
-      id: 6,
-      title: "Sécurité des Applications",
-      description: "Apprenez à sécuriser vos applications contre les vulnérabilités courantes.",
-      level: "Avancé",
-      duration: "18 heures",
-      students: 134,
-      rating: 4.8,
-      price: 229,
-      image: "/application-security-shield-lock.jpg",
-      icon: Shield,
-      color: "red",
-    },
-  ]
+export default async function FormationsPage() {
+  const result = await getFormations()
+  const formations = result.success ? result.formations : []
+
+  const iconMap: Record<string, any> = {
+    Code2,
+    Globe,
+    Smartphone,
+    Database,
+    Layers,
+    Shield,
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -146,8 +75,10 @@ export default function FormationsPage() {
         {/* Formations Grid */}
         <section className="container py-16">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {formations.map((formation, index) => {
-              const Icon = formation.icon
+            {formations.map((formation: any, index: number) => {
+              const Icon = iconMap[formation.icon] || Code2 // Default icon
+              const priceEur = (formation.price_cents || 0) / 100
+
               return (
                 <Card
                   key={formation.id}
@@ -156,7 +87,7 @@ export default function FormationsPage() {
                 >
                   <div className="relative h-48 bg-slate-100 overflow-hidden">
                     <Image
-                      src={formation.image || "/placeholder.svg"}
+                      src={formation.image_url || "/placeholder.svg?height=200&width=400"}
                       alt={formation.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -166,7 +97,7 @@ export default function FormationsPage() {
                     {/* Level badge */}
                     <div className="absolute top-3 right-3">
                       <Badge className="bg-white/95 backdrop-blur-sm shadow-lg border-0 font-semibold text-slate-900">
-                        {formation.level}
+                        {formation.level || "Tous niveaux"}
                       </Badge>
                     </div>
 
@@ -179,15 +110,13 @@ export default function FormationsPage() {
                       </div>
                     </div>
 
-                    {/* Stats overlay */}
+                    {/* Duration */}
                     <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
                       <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg shadow-lg">
-                        <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-                        <span className="font-bold text-slate-900 text-sm">{formation.rating}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-lg shadow-lg">
-                        <Users className="h-3.5 w-3.5 text-slate-700" />
-                        <span className="font-semibold text-slate-900 text-xs">{formation.students}</span>
+                        <Clock className="h-3.5 w-3.5 text-slate-700" />
+                        <span className="font-semibold text-slate-900 text-xs">
+                          {formation.duration_hours ? `${formation.duration_hours}h` : "N/A"}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -205,7 +134,7 @@ export default function FormationsPage() {
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1.5">
                         <Clock className="h-4 w-4 text-slate-400" />
-                        <span>{formation.duration}</span>
+                        <span>{formation.duration_hours ? `${formation.duration_hours}h` : "N/A"}</span>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <Video className="h-4 w-4 text-slate-400" />
@@ -216,8 +145,10 @@ export default function FormationsPage() {
 
                   <CardFooter className="flex items-center justify-between border-t border-slate-100 pt-4 bg-slate-50/50">
                     <div className="flex flex-col">
-                      <span className="text-2xl font-bold text-slate-900">{formation.price}€</span>
-                      <span className="text-xs text-muted-foreground">Accès à vie</span>
+                      <span className="text-2xl font-bold text-slate-900">{priceEur.toFixed(0)}€</span>
+                      <span className="text-xs text-muted-foreground">
+                        {formation.price_type === "lifetime" ? "Accès à vie" : "Abonnement"}
+                      </span>
                     </div>
                     <Link href={`/formations/${formation.id}`}>
                       <Button className="bg-cyan-600 hover:bg-cyan-700 group-hover:shadow-lg transition-all">

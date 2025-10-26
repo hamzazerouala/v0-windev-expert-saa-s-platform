@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Les meilleures pratiques WinDev en 2025",
+    "slug": "meilleures-pratiques-windev-2025",
+    "excerpt": "Découvrez les techniques essentielles pour développer des applications WinDev performantes et maintenables.",
+    "content": "<h2>Introduction</h2><p>Le développement avec WinDev nécessite de suivre certaines bonnes pratiques...</p><h2>1. Architecture du code</h2><p>Une bonne architecture est la clé...</p>",
+    "featured_image_url": "https://example.com/images/windev-practices.jpg",
+    "category_id": null,
+    "status": "published",
+    "published_at": "2025-01-15T10:00:00Z",
+    "meta_title": "Les meilleures pratiques WinDev en 2025 | WindevExpert",
+    "meta_description": "Guide complet des meilleures pratiques pour développer avec WinDev. Conseils d'experts pour créer des applications performantes."
+  },
+  {
+    "title": "Tutoriel : Créer une API REST avec WebDev",
+    "slug": "tutoriel-api-rest-webdev",
+    "excerpt": "Apprenez à créer une API REST professionnelle avec WebDev en suivant ce tutoriel pas à pas.",
+    "content": "<h2>Prérequis</h2><p>Avant de commencer...</p><h2>Étape 1 : Configuration du projet</h2><p>Créez un nouveau projet WebDev...</p>",
+    "featured_image_url": "https://example.com/images/webdev-api.jpg",
+    "category_id": null,
+    "status": "draft",
+    "published_at": null,
+    "meta_title": "Tutoriel API REST avec WebDev",
+    "meta_description": "Créez votre première API REST avec WebDev. Tutoriel complet avec exemples de code."
+  }
+]
